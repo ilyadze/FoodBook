@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Data
 @Entity
@@ -19,5 +21,10 @@ public class Ingredient {
     Long id;
 
     String title;
+
+    @OneToOne
+    @Cascade(CascadeType.REFRESH)
+    RecipeIngredient recipeIngredient;
+
 
 }

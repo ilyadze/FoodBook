@@ -7,6 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import javax.naming.Name;
+import java.util.List;
+
 @Data
 @Entity
 @AllArgsConstructor
@@ -20,4 +23,11 @@ public class Equipment {
 
     String title;
 
+
+    @ManyToMany
+//    @JoinTable(
+//            name = "recipe_equipment",
+//            joinColumns = @JoinColumn(name = "equipment_id"),
+//            inverseJoinColumns = @JoinColumn(name = "recipe_id"))
+    List<Recipe> recipes;
 }

@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Data
 @Entity
@@ -13,6 +15,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RecipeIngredient {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -20,6 +23,14 @@ public class RecipeIngredient {
 
     Integer amount;
 
-    Long recipeId;
+
+    @OneToOne
+    @Cascade(CascadeType.ALL)
+    Ingredient ingredient;
+
+    @ManyToOne
+    @JoinColumn(name = "recipeId", referencedColumnName = "id")
+    @Cascade(CascadeType.ALL)
+    Recipe recipe;
 
 }
