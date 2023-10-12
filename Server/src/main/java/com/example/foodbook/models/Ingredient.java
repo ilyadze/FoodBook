@@ -21,6 +21,7 @@ public class Ingredient {
     Long id;
 
     String title;
+    String image;
 
     @OneToOne
     @Cascade(CascadeType.REFRESH)
