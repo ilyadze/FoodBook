@@ -1,6 +1,8 @@
 package com.example.foodbook.service;
 
+import com.example.foodbook.dto.PersonDTO;
 import com.example.foodbook.dto.PostDTO;
+import com.example.foodbook.models.Person;
 import com.example.foodbook.models.Post;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,36 @@ public class MappingUtils {
         postDTO.setCommentList(post.getCommentList());
 
         return postDTO;
+
+    }
+    public Person mapToPeronModel(PersonDTO personDTO){
+        Person person = new Person();
+        person.setId(personDTO.getId());
+        person.setPostLikeList(personDTO.getPostLikeList());
+        person.setPostDislikeList(personDTO.getPostDislikeList());
+        person.setCommentList(personDTO.getCommentList());
+        person.setEmail(personDTO.getEmail());
+        person.setDescription(personDTO.getDescription());
+        person.setPassword(personDTO.getPassword());
+        person.setUsername(personDTO.getUsername());
+        person.setHistorySearchList(personDTO.getHistorySearchList());
+        person.setPostList(personDTO.getPostList());
+        return person;
+
+    }
+    public PersonDTO mapToPeronDTO(Person person){
+        PersonDTO personDTO = new PersonDTO();
+        personDTO.setId(person.getId());
+        personDTO.setPostLikeList(person.getPostLikeList());
+        personDTO.setPostDislikeList(person.getPostDislikeList());
+        personDTO.setCommentList(person.getCommentList());
+        personDTO.setEmail(person.getEmail());
+        personDTO.setDescription(person.getDescription());
+        personDTO.setPassword(person.getPassword());
+        personDTO.setUsername(person.getUsername());
+        personDTO.setHistorySearchList(person.getHistorySearchList());
+        personDTO.setPostList(person.getPostList());
+        return personDTO;
 
     }
 }
