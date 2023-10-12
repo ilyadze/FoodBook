@@ -23,7 +23,6 @@ public class PersonDTO {
     private List<Relationship> followingList; // Подписки
     private List<Privacy> privacyList; // Кто у нас скрыт
     private List<Privacy> notOurPrivacyList; // У кого мы скрыты
-
     private int amountPost;
     private int amountFollower;
     private int amountFollowing;

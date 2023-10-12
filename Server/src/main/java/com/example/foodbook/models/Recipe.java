@@ -1,10 +1,7 @@
 package com.example.foodbook.models;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Cascade;
 
@@ -23,6 +20,8 @@ public class Recipe {
     Long id;
 
     Long creatorId;
+
+    boolean isAPIRecept=true; //Потом исправить, мб поискать аннотацию с дефолтным значением
 
     String title;
 
