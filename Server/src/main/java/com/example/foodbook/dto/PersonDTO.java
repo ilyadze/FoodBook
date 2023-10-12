@@ -1,7 +1,8 @@
 package com.example.foodbook.dto;
 
 import com.example.foodbook.models.*;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 import java.util.List;
@@ -18,8 +19,10 @@ public class PersonDTO {
     private List<Comment> commentList;
     private List<HistorySearch> historySearchList;
     private List<Post> postList;
-    private List<Relationship> followers; // Подписчики
-    private List<Relationship> following; // Подписки
+    private List<Relationship> followerList; // Подписчики
+    private List<Relationship> followingList; // Подписки
+    private List<Privacy> privacyList; // Кто у нас скрыт
+    private List<Privacy> notOurPrivacyList; // У кого мы скрыты
 
     private int amountPost;
     private int amountFollower;
@@ -30,13 +33,13 @@ public class PersonDTO {
         this.amountPost=postList.size();
     }
 
-    public void setFollowers(List<Relationship> followers) {
-        this.followers = followers;
-        this.amountFollower=followers.size();
+    public void setFollowerList(List<Relationship> followerList) {
+        this.followerList = followerList;
+        this.amountFollower= followerList.size();
     }
 
-    public void setFollowing(List<Relationship> following) {
-        this.following = following;
-        this.amountFollowing=following.size();
+    public void setFollowingList(List<Relationship> followingList) {
+        this.followingList = followingList;
+        this.amountFollowing= followingList.size();
     }
 }

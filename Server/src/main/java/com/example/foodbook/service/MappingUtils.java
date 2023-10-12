@@ -48,8 +48,10 @@ public class MappingUtils {
         person.setUsername(personDTO.getUsername());
         person.setHistorySearchList(personDTO.getHistorySearchList());
         person.setPostList(personDTO.getPostList());
-        person.setFollowers(personDTO.getFollowers());
-        person.setFollowing(personDTO.getFollowing());
+        person.setFollowerList(personDTO.getFollowerList());
+        person.setFollowingList(personDTO.getFollowingList());
+        person.setPrivacyList(personDTO.getPrivacyList());
+        person.setNotOurPrivacyList(personDTO.getNotOurPrivacyList());
         return person;
 
     }
@@ -65,8 +67,10 @@ public class MappingUtils {
         personDTO.setUsername(person.getUsername());
         personDTO.setHistorySearchList(person.getHistorySearchList());
         personDTO.setPostList(person.getPostList());
-        personDTO.setFollowers(person.getFollowers());
-        personDTO.setFollowing(person.getFollowing());
+        personDTO.setFollowerList(person.getFollowerList());
+        personDTO.setFollowingList(person.getFollowingList());
+        personDTO.setPrivacyList(person.getPrivacyList());
+        personDTO.setNotOurPrivacyList(person.getNotOurPrivacyList());
         return personDTO;
 
     }

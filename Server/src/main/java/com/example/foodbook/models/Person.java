@@ -22,11 +22,19 @@ public class Person {
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,
             mappedBy = "follower")
-    private List<Relationship> followers; // Подписчики
+    private List<Relationship> followerList; // Подписчики
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,
             mappedBy = "following")
-    private List<Relationship> following; // Подписки
+    private List<Relationship> followingList; // Подписки
+
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "person")
+    private List<Privacy> privacyList; // Кто у нас скрыт
+
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "hiddenPerson")
+    private List<Privacy> notOurPrivacyList; // У кого мы скрыты
 
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,
