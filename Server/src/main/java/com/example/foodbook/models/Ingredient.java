@@ -20,7 +20,7 @@ public class Ingredient {
     @Column(name = "id", nullable = false)
     Long id;
 
-    String title;
+    String name;
     String image;
 
     @OneToOne(cascade = CascadeType.ALL)
