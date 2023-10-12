@@ -3,7 +3,7 @@ package com.example.foodbook.controllers;
 import com.example.foodbook.models.Equipment;
 import com.example.foodbook.models.response.EquipmentApiResponse;
 import com.example.foodbook.models.response.RecipeApiResponse;
-import com.example.foodbook.models.response.Response;
+
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -32,13 +32,12 @@ public class EquipmentController {
         RestTemplate restTemplate = new RestTemplate();
 
         String request = "https://api.spoonacular.com/recipes/" + recipeId + "/equipmentWidget.json"; //todo
-        String apiKey = "f3a620d7c1d545c995304d7e6efe0e3a&id=1003464"; //todo
+        String apiKey = "f3a620d7c1d545c995304d7e6efe0e3a"; //todo
         String apiUrl = request + "?apiKey=" + apiKey;
-
+        System.out.println(apiUrl);
         EquipmentApiResponse response = restTemplate.getForObject(apiUrl, EquipmentApiResponse.class);
-        System.out.println(response);
-
-        return new ResponseEntity<>(HttpEntity.EMPTY, HttpStatusCode.valueOf(1));
+        System.out.println(response.getEquipment());
+        return ResponseEntity.ok(response.getEquipment());
     }
 
 

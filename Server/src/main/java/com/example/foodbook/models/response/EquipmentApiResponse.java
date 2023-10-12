@@ -18,5 +18,5 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EquipmentApiResponse {
 
-    List<EquipmentApiDTO> results;
+    List<EquipmentApiDTO> equipment;
 }

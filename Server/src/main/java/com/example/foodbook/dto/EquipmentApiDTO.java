@@ -12,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EquipmentApiDTO {
-
+    //https://api.spoonacular.com/recipes/1131211/equipmentWidget.json?apiKey=f3a620d7c1d545c995304d7e6efe0e3a
     String name;
     String image;
 
