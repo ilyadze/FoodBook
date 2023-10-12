@@ -48,6 +48,8 @@ public class MappingUtils {
         person.setUsername(personDTO.getUsername());
         person.setHistorySearchList(personDTO.getHistorySearchList());
         person.setPostList(personDTO.getPostList());
+        person.setFollowers(personDTO.getFollowers());
+        person.setFollowing(personDTO.getFollowing());
         return person;
 
     }
@@ -63,6 +65,8 @@ public class MappingUtils {
         personDTO.setUsername(person.getUsername());
         personDTO.setHistorySearchList(person.getHistorySearchList());
         personDTO.setPostList(person.getPostList());
+        personDTO.setFollowers(person.getFollowers());
+        personDTO.setFollowing(person.getFollowing());
         return personDTO;
 
     }

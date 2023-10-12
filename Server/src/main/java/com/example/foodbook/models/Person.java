@@ -21,6 +21,15 @@ public class Person {
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,
+            mappedBy = "follower")
+    private List<Relationship> followers; // Подписчики
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,
+            mappedBy = "following")
+    private List<Relationship> following; // Подписки
+
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,
         mappedBy = "person")
     private List<PostLike> postLikeList;
 
