@@ -8,12 +8,10 @@ import com.example.foodbook.models.response.RecipeApiResponse;
 import com.example.foodbook.models.response.Response;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.experimental.PackagePrivate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -67,10 +65,9 @@ public class RecipeController {
                 for (int j = 0; j < test.getResults().size(); j++) {
 
                         System.out.println(i+") "+test.getResults().get(j)+"\n");
-
-                        String apiUrl2 = "https://api.spoonacular.com/recipes/"+test.getResults().get(j).getId()+"/information?"+"&apiKey="+API_KEY;
+                         String apiUrl2 = "http://localhost:8080/recipes/" + test.getResults().get(j).getId();
+                       /* String apiUrl2 = "https://api.spoonacular.com/recipes/"+test.getResults().get(j).getId()+"/information?"+"&apiKey="+API_KEY;*/
                         System.out.println(apiUrl2);
-
 
                         test.getResults().set(j,restTemplate.getForObject(apiUrl2, RecipeAPIDTO.class));
 
@@ -87,5 +84,25 @@ public class RecipeController {
         // Обработка ошибок при запросе к внешнему API
         return ResponseEntity.status(response.getStatusCode()).body("Ошибка при запросе к внешнему API");
         }*/
+    }
+    @GetMapping("/recipes/{id}")
+    public ResponseEntity<?> getRescipeById(@PathVariable(name = "id") Long recipeId){
+        RestTemplate restTemplate = new RestTemplate();
+        String apiUrl = "https://api.spoonacular.com/recipes/"+recipeId+"/information?"+"&apiKey="+API_KEY;
+
+        System.out.println("Вошли в нужный if ");
+        try {
+            RecipeAPIDTO test = restTemplate.getForObject(apiUrl, RecipeAPIDTO.class);
+
+
+            System.out.println(test);
+            int i=1;
+            return ResponseEntity.ok(test);
+
+        } catch (Exception e) {
+            // Обработка ошибок парсинга JSON
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ошибка при обработке данных");
+        }
+
     }
 }

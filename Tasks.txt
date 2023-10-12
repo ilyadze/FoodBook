@@ -1,0 +1,2 @@
+includeNutrition	boolean	false	Include nutrition data in the recipe information. Nutrition data is per serving. If you want the nutrition data for the entire recipe, just multiply by the number of servings.
+Не заюыть добавить в запрос GET https://api.spoonacular.com/recipes/{id}/information, и добавить поля в классах
