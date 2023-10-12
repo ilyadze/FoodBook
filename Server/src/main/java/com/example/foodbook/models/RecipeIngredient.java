@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 @Data
 @Entity
@@ -23,14 +22,11 @@ public class RecipeIngredient {
 
     Integer amount;
 
-
-    @OneToOne
-    @Cascade(CascadeType.ALL)
+    @OneToOne(cascade = jakarta.persistence.CascadeType.REFRESH)
     Ingredient ingredient;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "recipeId", referencedColumnName = "id")
-    @Cascade(CascadeType.ALL)
     Recipe recipe;
 
 }
