@@ -5,6 +5,7 @@ import com.example.foodbook.models.Ingredient;
 import com.example.foodbook.models.Recipe;
 import com.example.foodbook.models.response.ApiResponse;
 import com.example.foodbook.models.response.RecipeApiResponse;
+import com.example.foodbook.models.response.Response;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;

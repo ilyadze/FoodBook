@@ -21,7 +21,7 @@ public class Equipment {
     @Column(name = "id", nullable = false)
     Long id;
 
-    String title;
+    String name;
 
 
     @ManyToMany
