@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import java.util.List;
 
@@ -31,17 +30,14 @@ public class Recipe {
 
     String instruction;
 
-    @OneToMany(mappedBy = "recipe")
-    @Cascade(CascadeType.REFRESH)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     List<RecipeIngredient> recipeIngredient;
 
-    @OneToMany(mappedBy = "recipe")
-    @Cascade(CascadeType.REFRESH)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     List<Post> posts;
 
-    @ManyToMany(mappedBy = "recipes")
+    @ManyToMany(mappedBy = "recipes", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     List<Equipment> equipment;
-
 
 
 }

@@ -33,9 +33,8 @@ public class Post {
     @JoinColumn(name = "pesronId")
     private Person person;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.REFRESH)
     @JoinColumn(name = "recipeId", referencedColumnName = "id")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Recipe recipe;
 
 
