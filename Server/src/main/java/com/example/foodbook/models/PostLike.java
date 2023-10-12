@@ -11,5 +11,13 @@ public class PostLike {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "postId")
+    private Post post;
+
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "personId")
+    private Person person;
+
 
 }

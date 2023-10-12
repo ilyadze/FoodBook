@@ -17,6 +17,14 @@ public class Comment {
     private String comment;
     private LocalDateTime dateOfCreated;
 
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "postId")
+    private Post post;
+
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "personId")
+    private Person person;
+
     @PrePersist
     private void init(){
         dateOfCreated=LocalDateTime.now();
