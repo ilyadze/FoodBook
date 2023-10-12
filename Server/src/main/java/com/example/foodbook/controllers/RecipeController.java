@@ -1,22 +1,13 @@
 package com.example.foodbook.controllers;
 
 import com.example.foodbook.dto.RecipeAPIDTO;
-import com.example.foodbook.models.Ingredient;
-import com.example.foodbook.models.Recipe;
-import com.example.foodbook.models.response.ApiResponse;
-import com.example.foodbook.models.response.RecipeApiResponse;
+import com.example.foodbook.response.EquipmentApiResponse;
+import com.example.foodbook.response.RecipeApiResponse;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.experimental.PackagePrivate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 //  Parametrs:
 //
@@ -34,7 +25,7 @@ import java.util.List;
 
 @RestController
 public class RecipeController {
-    private final String API_KEY="88287130027b4c26bd5273c03ad85b36";
+    private final String API_KEY="f3a620d7c1d545c995304d7e6efe0e3a";
     private final String REQUEST="https://api.spoonacular.com/recipes/complexSearch?instructionsRequired=true";
 
     @GetMapping("/recipes")
@@ -65,16 +56,18 @@ public class RecipeController {
                 for (int j = 0; j < test.getResults().size(); j++) {
 
                         System.out.println(i+") "+test.getResults().get(j)+"\n");
-                         String apiUrl2 = "http://localhost:8080/recipes/" + test.getResults().get(j).getId();
+                        String apiUrl2 = "http://localhost:8080/recipes/" + test.getResults().get(j).getId();
+
                        /* String apiUrl2 = "https://api.spoonacular.com/recipes/"+test.getResults().get(j).getId()+"/information?"+"&apiKey="+API_KEY;*/
                         System.out.println(apiUrl2);
 
                         test.getResults().set(j,restTemplate.getForObject(apiUrl2, RecipeAPIDTO.class));
-
+                         String apiUrl3 = "http://localhost:8080/equipment/" + test.getResults().get(j).getId();
+                         test.getResults().get(j).setEquipment(restTemplate.getForObject(apiUrl3, EquipmentApiResponse.class).getEquipment());
                         System.out.println(i+") "+test.getResults().get(j)+"\n");
                         i++;
                 }
-                return ResponseEntity.ok(test.getResults());
+                return ResponseEntity.ok(test);
 
             } catch (Exception e) {
                 // Обработка ошибок парсинга JSON

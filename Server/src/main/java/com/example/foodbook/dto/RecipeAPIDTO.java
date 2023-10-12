@@ -1,5 +1,6 @@
 package com.example.foodbook.dto;
 
+import com.example.foodbook.models.Equipment;
 import com.example.foodbook.models.Ingredient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,4 +17,6 @@ public class RecipeAPIDTO {
     private String title;
     private List<Ingredient> extendedIngredients;
     private String instructions;
+    private List<EquipmentApiDTO> equipment;
+  /*private List <EquipmentApiDTO> equipment;*/
 }

@@ -1,4 +1,4 @@
-package com.example.foodbook.models.response;
+package com.example.foodbook.response;
 
 
 import com.example.foodbook.dto.EquipmentApiDTO;
@@ -17,6 +17,5 @@ import java.util.List;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EquipmentApiResponse {
-
     List<EquipmentApiDTO> equipment;
 }

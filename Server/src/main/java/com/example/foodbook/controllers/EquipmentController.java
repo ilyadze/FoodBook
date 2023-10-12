@@ -1,23 +1,14 @@
 package com.example.foodbook.controllers;
 
-import com.example.foodbook.models.Equipment;
-import com.example.foodbook.models.response.EquipmentApiResponse;
-import com.example.foodbook.models.response.RecipeApiResponse;
+import com.example.foodbook.response.EquipmentApiResponse;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.boot.Banner;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,7 +28,7 @@ public class EquipmentController {
         System.out.println(apiUrl);
         EquipmentApiResponse response = restTemplate.getForObject(apiUrl, EquipmentApiResponse.class);
         System.out.println(response.getEquipment());
-        return ResponseEntity.ok(response.getEquipment());
+        return ResponseEntity.ok(response);
     }
 
 

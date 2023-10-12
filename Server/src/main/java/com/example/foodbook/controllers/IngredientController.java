@@ -1,6 +1,6 @@
 package com.example.foodbook.controllers;
 
-import com.example.foodbook.models.response.ApiResponse;
+import com.example.foodbook.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class IngredientController {
-    private final String API_KEY_VLAD = "88287130027b4c26bd5273c03ad85b36";
+    private final String API_KEY_VLAD = "f3a620d7c1d545c995304d7e6efe0e3a";
 
     @GetMapping("/ingridients")
     public ResponseEntity<?> getExternalData(@RequestParam(name = "quaery") String query) {
@@ -22,7 +22,7 @@ public class IngredientController {
         ApiResponse test = restTemplate.getForObject(apiUrl, ApiResponse.class);
         System.out.println(test);
 
-        return ResponseEntity.ok(test.getResults());
+        return ResponseEntity.ok(test);
     }
 }
 

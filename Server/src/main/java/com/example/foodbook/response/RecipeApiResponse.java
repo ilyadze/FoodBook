@@ -1,6 +1,8 @@
-package com.example.foodbook.models.response;
+package com.example.foodbook.response;
 
+import com.example.foodbook.dto.RecipeAPIDTO;
 import com.example.foodbook.models.Ingredient;
+import com.example.foodbook.models.Recipe;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +15,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ApiResponse {
-
-    List<Ingredient> results;
+public class RecipeApiResponse {
+    /*Long id;
+    String title;
+    String Image;*/
+    List <RecipeAPIDTO> results;
 }
