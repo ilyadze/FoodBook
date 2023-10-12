@@ -1,5 +1,6 @@
 package com.example.foodbook.models;
 
+import com.example.foodbook.dto.PostDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.Cascade;
@@ -36,4 +37,6 @@ public class Post {
     @JoinColumn(name = "recipeId", referencedColumnName = "id")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Recipe recipe;
+
+
 }
