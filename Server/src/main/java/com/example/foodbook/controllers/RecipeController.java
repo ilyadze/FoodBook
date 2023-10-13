@@ -46,26 +46,16 @@ public class RecipeController {
         RecipeApiResponse test = restTemplate.getForObject(apiUrl, RecipeApiResponse.class);
         if (response.getStatusCode() == HttpStatus.OK) {*/
 
-            System.out.println("Вошли в нужный if ");
             try {
                 RecipeApiResponse test = restTemplate.getForObject(apiUrl, RecipeApiResponse.class);
-
-
-                System.out.println(test);
-                int i=1;
                 for (int j = 0; j < test.getResults().size(); j++) {
 
-                        System.out.println(i+") "+test.getResults().get(j)+"\n");
+
                         String apiUrl2 = "http://localhost:8080/recipes/" + test.getResults().get(j).getId();
-
                        /* String apiUrl2 = "https://api.spoonacular.com/recipes/"+test.getResults().get(j).getId()+"/information?"+"&apiKey="+API_KEY;*/
-                        System.out.println(apiUrl2);
-
                         test.getResults().set(j,restTemplate.getForObject(apiUrl2, RecipeAPIDTO.class));
                          String apiUrl3 = "http://localhost:8080/equipment/" + test.getResults().get(j).getId();
                          test.getResults().get(j).setEquipment(restTemplate.getForObject(apiUrl3, EquipmentApiResponse.class).getEquipment());
-                        System.out.println(i+") "+test.getResults().get(j)+"\n");
-                        i++;
                 }
                 return ResponseEntity.ok(test);
 
@@ -82,18 +72,11 @@ public class RecipeController {
     public ResponseEntity<?> getRescipeById(@PathVariable(name = "id") Long recipeId){
         RestTemplate restTemplate = new RestTemplate();
         String apiUrl = "https://api.spoonacular.com/recipes/"+recipeId+"/information?"+"&apiKey="+API_KEY;
-
-        System.out.println("Вошли в нужный if ");
         try {
             RecipeAPIDTO test = restTemplate.getForObject(apiUrl, RecipeAPIDTO.class);
-
-
-            System.out.println(test);
-            int i=1;
             return ResponseEntity.ok(test);
 
         } catch (Exception e) {
-            // Обработка ошибок парсинга JSON
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ошибка при обработке данных");
         }
 
