@@ -1,9 +1,7 @@
 package com.example.foodbook.models;
 
-import com.example.foodbook.dto.PostDTO;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.Cascade;
 
 import java.util.List;
 

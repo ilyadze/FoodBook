@@ -69,7 +69,7 @@ public class RecipeController {
         }*/
     }
     @GetMapping("/recipes/{id}")
-    public ResponseEntity<?> getRescipeById(@PathVariable(name = "id") Long recipeId){
+    public ResponseEntity<?> getRecipeById(@PathVariable(name = "id") Long recipeId){
         RestTemplate restTemplate = new RestTemplate();
         String apiUrl = "https://api.spoonacular.com/recipes/"+recipeId+"/information?"+"&apiKey="+API_KEY;
         try {

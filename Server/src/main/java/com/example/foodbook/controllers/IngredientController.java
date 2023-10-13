@@ -11,15 +11,14 @@ import org.springframework.web.client.RestTemplate;
 public class IngredientController {
     private final String API_KEY_VLAD = "f3a620d7c1d545c995304d7e6efe0e3a";
 
-    @GetMapping("/ingridients")
-    public ResponseEntity<?> getExternalData(@RequestParam(name = "quaery") String query) {
+    @GetMapping("/ingredients")
+    public ResponseEntity<?> getExternalData(@RequestParam(name = "query") String query,
+                                             @RequestParam(name = "number", required = false, defaultValue = "10") String number) {
         RestTemplate restTemplate = new RestTemplate();
-        String apiUrl = "https://api.spoonacular.com/food/ingredients/search?query=" + query + "&number=10&apiKey=" + API_KEY_VLAD;
-        /*String apiUrl = "https://api.spoonacular.com/recipes/1003464/ingredientWidget.json?apiKey=88287130027b4c26bd5273c03ad85b36";*/
-        ApiResponse test = restTemplate.getForObject(apiUrl, ApiResponse.class);
-        System.out.println(test);
+        String apiUrl = "https://api.spoonacular.com/food/ingredients/search?query=" + query + "&number=" + number + "&apiKey=" + API_KEY_VLAD;
+        ApiResponse response = restTemplate.getForObject(apiUrl, ApiResponse.class);
 
-        return ResponseEntity.ok(test);
+        return ResponseEntity.ok(response);
     }
 }
 
