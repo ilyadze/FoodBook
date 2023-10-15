@@ -33,7 +33,7 @@ public class TestWebClientController {
         Mono<RecipeAPIDTO> response = headersSpec.retrieve()
                 .bodyToMono(RecipeAPIDTO.class);
         System.out.println(response);*/
-        return client.method(HttpMethod.GET)
+        return client.post()
                 .uri("/ourURL")
                 .bodyValue("someData")
                 .retrieve()
