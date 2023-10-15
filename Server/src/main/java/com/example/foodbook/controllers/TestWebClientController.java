@@ -1,10 +1,14 @@
 package com.example.foodbook.controllers;
 
+import com.example.foodbook.configurations.WebClientConfiguration;
 import com.example.foodbook.dto.RecipeAPIDTO;
+import com.example.foodbook.models.Person;
+import com.example.foodbook.sevices.WebClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +21,16 @@ import java.util.Collections;
 @RestController
 @RequiredArgsConstructor
 public class TestWebClientController {
+    /////////////////////////////////////////////////////////////////////////////
+    private final WebClientService webClientService;
+    @GetMapping("/recipe-web-client/{id}")
+    public ResponseEntity<?> getRecipe(@PathVariable(name = "id") Long id){
+        return ResponseEntity.ok(webClientService.getRecipeById(id));
+    }
+    /////////////////////////////////////////////////////////////////////////////
+
+
+
     private final String API_KEY="3345d443c0e4442c8060dee679aa8c53";
     private final String REQUEST="https://api.spoonacular.com/recipes/complexSearch?instructionsRequired=true";
     @GetMapping("/testWebClient")
@@ -51,6 +65,7 @@ public class TestWebClientController {
                 .uri("/recipes2/665540")
                 .retrieve()
                 .bodyToMono(RecipeAPIDTO.class);
+                //.toEntity(RecipeAPIDTO.class); ПОлучаем весь ответ
     }
     @GetMapping("/recipes2/{id}")
     public Mono<RecipeAPIDTO> getRecipeById(@PathVariable(name = "id") Long recipeId) {
@@ -65,7 +80,10 @@ public class TestWebClientController {
                 .onErrorResume(throwable -> {
                     return Mono.just(new RecipeAPIDTO());
                 });
+
     }
+
+
 
 
 }
