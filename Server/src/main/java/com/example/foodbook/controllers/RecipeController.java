@@ -41,18 +41,12 @@ public class RecipeController {
             apiUrl+="&includeIngredients="+includeIngredients;
         }
 
-        /*ResponseEntity<String> response = restTemplate.getForEntity(apiUrl, String.class);
-
-        RecipeApiResponse test = restTemplate.getForObject(apiUrl, RecipeApiResponse.class);
-        if (response.getStatusCode() == HttpStatus.OK) {*/
-
             try {
                 RecipeApiResponse test = restTemplate.getForObject(apiUrl, RecipeApiResponse.class);
                 for (int j = 0; j < test.getResults().size(); j++) {
 
 
                         String apiUrl2 = "http://localhost:8080/recipes/" + test.getResults().get(j).getId();
-                       /* String apiUrl2 = "https://api.spoonacular.com/recipes/"+test.getResults().get(j).getId()+"/information?"+"&apiKey="+API_KEY;*/
                         test.getResults().set(j,restTemplate.getForObject(apiUrl2, RecipeAPIDTO.class));
                          String apiUrl3 = "http://localhost:8080/equipment/" + test.getResults().get(j).getId();
                          test.getResults().get(j).setEquipment(restTemplate.getForObject(apiUrl3, EquipmentApiResponse.class).getEquipment());
@@ -60,7 +54,6 @@ public class RecipeController {
                 return ResponseEntity.ok(test);
 
             } catch (Exception e) {
-                // Обработка ошибок парсинга JSON
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ошибка при обработке данных");
             }
        /* } else {
