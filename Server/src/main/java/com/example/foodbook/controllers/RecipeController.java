@@ -25,7 +25,7 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class RecipeController {
-    private final String API_KEY="f3a620d7c1d545c995304d7e6efe0e3a";
+    private final String API_KEY="3345d443c0e4442c8060dee679aa8c53";
     private final String REQUEST="https://api.spoonacular.com/recipes/complexSearch?instructionsRequired=true";
 
     @GetMapping("/recipes")

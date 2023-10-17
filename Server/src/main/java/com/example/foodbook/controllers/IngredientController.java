@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class IngredientController {
-    private final String API_KEY_VLAD = "f3a620d7c1d545c995304d7e6efe0e3a";
+    private final String API_KEY_VLAD = "3345d443c0e4442c8060dee679aa8c53";
 
     @GetMapping("/ingredients")
     public ResponseEntity<?> getExternalData(@RequestParam(name = "query") String query,

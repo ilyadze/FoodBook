@@ -23,7 +23,7 @@ public class EquipmentController {
         RestTemplate restTemplate = new RestTemplate();
 
         String request = "https://api.spoonacular.com/recipes/" + recipeId + "/equipmentWidget.json"; //todo
-        String apiKey = "f3a620d7c1d545c995304d7e6efe0e3a"; //todo
+        String apiKey = "3345d443c0e4442c8060dee679aa8c53"; //todo
         String apiUrl = request + "?apiKey=" + apiKey;
         EquipmentApiResponse response = restTemplate.getForObject(apiUrl, EquipmentApiResponse.class);
         return ResponseEntity.ok(response);
