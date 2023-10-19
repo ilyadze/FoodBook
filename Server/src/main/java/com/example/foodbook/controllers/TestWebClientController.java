@@ -25,6 +25,7 @@ public class TestWebClientController {
     private final WebClientService webClientService;
     @GetMapping("/recipe-web-client/{id}")
     public ResponseEntity<?> getRecipe(@PathVariable(name = "id") Long id){
+
         return ResponseEntity.ok(webClientService.getRecipeById(id));
     }
     /////////////////////////////////////////////////////////////////////////////
