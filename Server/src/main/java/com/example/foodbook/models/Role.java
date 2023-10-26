@@ -1,10 +1,9 @@
-/*
 package com.example.foodbook.models;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
 
-*/
+
 /*
 public enum Role implements GrantedAuthority {
     USER,ADMIN; 
@@ -13,11 +12,15 @@ public enum Role implements GrantedAuthority {
         return name();
     }
 }
-*//*
+*/
+
+import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Data
 @Table(name = "roles")
+@AllArgsConstructor
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +29,8 @@ public class Role {
 
     @Column(name = "name")
     private String name;
-}*/
+
+    public Role() {
+
+    }
+}

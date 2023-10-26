@@ -1,4 +1,3 @@
-/*
 package com.example.foodbook.controllers;
 
 import com.example.foodbook.exceptions.AppError;
@@ -18,32 +17,29 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Objects;
-
+import java.util.logging.Logger;
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
 public class AuthController {
     private final PersonService personService;
     private final JWTUtil jwtUtil;
-    private  AuthenticationManager authenticationManager;
-
+    private  final AuthenticationManager authenticationManager;
     @PostMapping("/auth")
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest){
-        try {
+        System.out.println("Какого хера");
+        /*try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(),
                     authRequest.getPassword()));
-
         } catch(BadCredentialsException e){
             return new ResponseEntity<>(new AppError(HttpStatus.UNAUTHORIZED.value(),"Неправильный логин или пароль"),HttpStatus.UNAUTHORIZED);
+        }*/
+        System.out.println("Есть пробитие");
 
-        }
         UserDetails userDetails = personService.loadUserByUsername(authRequest.getUsername());
+        System.out.println(userDetails);
         String token = jwtUtil.generateToken(userDetails);
+        System.out.println("token:" + token);
         return ResponseEntity.ok(new JwtResponse(token));
     }
-
-
 }
-*/

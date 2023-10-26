@@ -28,13 +28,13 @@ public class Person {
             joinColumns =@JoinColumn(name="user_id") )
     @Enumerated(EnumType.STRING)
     private Set<Role > roles = new HashSet<>();*/
-  /*  @ManyToMany
+    @ManyToMany
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Collection<Role> roles;*/
+    private List<Role> roles;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "follower")
     private List<Relationship> followerList; // Подписчики
