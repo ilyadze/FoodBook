@@ -1,2 +1,10 @@
-package com.example.foodbook.response;public class JwtResponse {
+package com.example.foodbook.response;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class JwtResponse {
+    private String token;
 }

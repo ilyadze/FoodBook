@@ -17,6 +17,7 @@ public class EquipmentController {
     private final ModelMapper modelMapper;
 
 
+
     @GetMapping("/equipment/{recipeId}")
     public ResponseEntity<?> getEquipment(@PathVariable Long recipeId) {
 
