@@ -1,6 +1,7 @@
 package com.example.foodbook.controllers;
 
 import com.example.foodbook.response.ApiResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,7 +10,9 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class IngredientController {
-    private final String API_KEY_VLAD = "3345d443c0e4442c8060dee679aa8c53";
+
+    @Value("${api.key.ilya}")
+    private  String API_KEY_VLAD;
 
     @GetMapping("/ingredients")
     public ResponseEntity<?> getExternalData(@RequestParam(name = "query") String query,
