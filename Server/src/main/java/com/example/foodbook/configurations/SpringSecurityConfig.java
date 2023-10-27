@@ -53,7 +53,7 @@ public class SpringSecurityConfig {
     private final PersonService personService;
   @Bean
     public SecurityFilterChain filterChain (HttpSecurity  http) throws Exception{
-     /* http
+ /*http
               .csrf(AbstractHttpConfigurer::disable)
               .cors(AbstractHttpConfigurer::disable)
               .authorizeHttpRequests(auth->
@@ -71,7 +71,9 @@ public class SpringSecurityConfig {
                           exception.authenticationEntryPoint( new HttpStatusEntryPoint( HttpStatus.UNAUTHORIZED));
 
                       });*/
+
       http.csrf(AbstractHttpConfigurer::disable)
+              .cors(AbstractHttpConfigurer::disable)
               .authorizeHttpRequests(request -> request.requestMatchers("/**")
                       .permitAll().anyRequest().authenticated())
               .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS));

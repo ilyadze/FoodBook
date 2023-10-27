@@ -32,6 +32,15 @@ public class PersonService implements UserDetailsService {
 
         return this.repository.findByUsername(username);
     }
+    /*public UserDetailsService userDetailsService(){
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username)  {
+                return repository.findByUsername(username)
+                        .orElseThrow(()-> new UsernameNotFoundException("User not found"));
+            }
+        };
+    }*/
 
     @Override
     @Transactional

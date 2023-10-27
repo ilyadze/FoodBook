@@ -2,6 +2,9 @@ package com.example.foodbook.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -11,7 +14,7 @@ import java.util.Set;
 @Entity
 @Data
 @Table(name = "person")
-public class Person {
+public class Person /*implements UserDetails*/ {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -62,4 +65,28 @@ public class Person {
     private List<Post> postList;
 
 
+    /*@Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return (Collection<? extends GrantedAuthority>) roles;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }*/
 }
