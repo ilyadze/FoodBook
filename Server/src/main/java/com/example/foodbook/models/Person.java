@@ -37,7 +37,7 @@ public class Person /*implements UserDetails*/ {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<Role> roles;
+    private Collection <Role> roles;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "follower")
     private List<Relationship> followerList; // Подписчики

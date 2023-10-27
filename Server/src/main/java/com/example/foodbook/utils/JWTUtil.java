@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Component
 public class JWTUtil {
 
-    private String secret= "secret";
+    private String secret= "413F4428472B4B6250655368566D5970337336763979244226452948404D6351";
 
 
     private Duration lifetime=Duration.ofMinutes(30L);
@@ -34,13 +34,13 @@ public class JWTUtil {
         claims.put("roles",rolesList);
         //Можно добавить любые поля если передать person
         Date issuedDate = new Date();
-        Date expiredDate = new Date(issuedDate.getTime()+ 1000 * 60 * 24);
+        Date expiredDate = new Date(issuedDate.getTime()+ lifetime.toMillis());
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(issuedDate)
                 .setExpiration(expiredDate)
-                .signWith(SignatureAlgorithm.HS256,"413F4428472B4B6250655368566D5970337336763979244226452948404D6351")
+                .signWith(SignatureAlgorithm.HS256,secret)
                 .compact();
     }
     private Key getSigningKey() {
