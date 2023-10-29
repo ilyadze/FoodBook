@@ -1,5 +1,4 @@
 package com.example.foodbook.configurations;
-
 import com.example.foodbook.utils.JWTUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
@@ -14,16 +13,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
 import java.util.stream.Collectors;
-
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class JwtRequestFilter  extends OncePerRequestFilter {
     private final JWTUtil jwtUtil;
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
             String authHeader = request.getHeader("Authorization");
@@ -34,6 +30,7 @@ public class JwtRequestFilter  extends OncePerRequestFilter {
                 jwt=authHeader.substring(7);
                 try{
                     username= jwtUtil.getUsername(jwt);
+
                 }
                 catch(ExpiredJwtException e){
                     log.debug("Время жизни токена вышло");

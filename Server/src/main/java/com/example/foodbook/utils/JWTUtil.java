@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
 import java.security.Key;
 import java.time.Duration;
 import java.util.Date;
@@ -17,15 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 @Component
 public class JWTUtil {
-
     private String secret= "413F4428472B4B6250655368566D5970337336763979244226452948404D6351";
-
-
     private Duration lifetime=Duration.ofMinutes(30L);
-
     public String generateToken(UserDetails userDetails){ // Можно передавать person
         Map<String,Object> claims = new HashMap<>();
         List<String> rolesList= userDetails.getAuthorities().stream()
@@ -43,12 +37,11 @@ public class JWTUtil {
                 .signWith(SignatureAlgorithm.HS256,secret)
                 .compact();
     }
-    private Key getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode("413F4428472B4B6250655368566D5970337336763979244226452948404D6351");
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
     public String getUsername(String token){
         return getAllClaimsFromToken(token).getSubject();
+    }
+    public String getEmail(String token){
+        return getAllClaimsFromToken(token).get("email",String.class);
     }
     public List<String> getRoles(String token){
         return getAllClaimsFromToken(token).get("roles",List.class);

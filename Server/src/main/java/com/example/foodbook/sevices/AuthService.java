@@ -3,6 +3,7 @@ package com.example.foodbook.sevices;
 import com.example.foodbook.dto.PersonDTO;
 import com.example.foodbook.dto.RegistrationUserDTO;
 import com.example.foodbook.exceptions.AppError;
+import com.example.foodbook.exceptions.LocalException;
 import com.example.foodbook.models.Person;
 import com.example.foodbook.response.JwtRequest;
 import com.example.foodbook.response.JwtResponse;
@@ -43,13 +44,16 @@ public class AuthService {
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
-    public ResponseEntity<?> createNewPerson(@RequestBody RegistrationUserDTO registrationUserDTO){
+    public ResponseEntity<PersonDTO> createNewPerson(@RequestBody RegistrationUserDTO registrationUserDTO)  {
         if(!registrationUserDTO.getPassword().equals(registrationUserDTO.getConfirmPassword())){
-            return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Пароли не совпадают"),HttpStatus.BAD_REQUEST);
-        }
+            throw new LocalException(HttpStatus.BAD_REQUEST,"ПАроли не совпадают");
+           /* throw  new AppError(HttpStatus.BAD_REQUEST.value(), "ароли не совпадают");*/
+            /*return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Пароли не совпадают"),HttpStatus.BAD_REQUEST);
+       */ }
         if(personService.findByUsername(registrationUserDTO.getUsername()).isPresent()){
-            return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Такой пользователь уже существует"),HttpStatus.BAD_REQUEST);
-        }
+            throw new LocalException(HttpStatus.UNAUTHORIZED,"Такой пользователь уже существует");
+          /*  return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Такой пользователь уже существует"),HttpStatus.BAD_REQUEST);
+      */  }
 
         Person person = personService.createPerson(registrationUserDTO);
         return ResponseEntity.ok(new PersonDTO(person.getId(), person.getUsername(), person.getEmail()));

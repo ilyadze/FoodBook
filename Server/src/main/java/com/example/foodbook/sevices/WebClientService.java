@@ -6,14 +6,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-
-
-
 @Service
 @AllArgsConstructor
 public class WebClientService {
-
-
 /////////////////////////////////////////////////////////////////////////////
 private final String API_KEY="3345d443c0e4442c8060dee679aa8c53";
     private final WebClient webClient;

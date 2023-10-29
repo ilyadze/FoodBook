@@ -1,6 +1,7 @@
 package com.example.foodbook.controllers;
 
 import com.example.foodbook.dto.RegistrationUserDTO;
+import com.example.foodbook.exceptions.AppError;
 import com.example.foodbook.response.JwtRequest;
 import com.example.foodbook.sevices.AuthService;
 
@@ -17,7 +18,7 @@ public class AuthController {
        return authService.createAuthToken(authRequest);
     }
     @PostMapping("/registration")
-    public ResponseEntity<?> createNewPerson(@RequestBody RegistrationUserDTO registrationUserDTO){
-       return authService.createNewPerson(registrationUserDTO);
+    public ResponseEntity<?> createNewPerson(@RequestBody RegistrationUserDTO registrationUserDTO)  {
+       return ResponseEntity.ok(authService.createNewPerson(registrationUserDTO));
     }
 }
