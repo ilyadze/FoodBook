@@ -8,6 +8,7 @@ import com.example.foodbook.models.Person;
 import com.example.foodbook.response.JwtRequest;
 import com.example.foodbook.response.JwtResponse;
 import com.example.foodbook.utils.JWTUtil;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -25,6 +29,7 @@ public class AuthService {
     private final JWTUtil jwtUtil;
     private  final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
+    private final Map<String, String> refreshStorage = new HashMap<>();
 
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest){
         System.out.println("Какого хера");
@@ -36,12 +41,15 @@ public class AuthService {
         }*/
 
         System.out.println("Есть пробитие");
-
         UserDetails userDetails = personService.loadUserByUsername(authRequest.getUsername());
         System.out.println(userDetails);
+
         String token = jwtUtil.generateToken(userDetails);
+        String refreshToken= jwtUtil.generateRefreshToken(userDetails);
+        refreshStorage.put(userDetails.getUsername(), refreshToken);
         System.out.println("token:" + token);
-        return ResponseEntity.ok(new JwtResponse(token));
+        System.out.println("refresh:" + token);
+        return ResponseEntity.ok(new JwtResponse(token,refreshToken));
     }
 
     public ResponseEntity<PersonDTO> createNewPerson(@RequestBody RegistrationUserDTO registrationUserDTO)  {
@@ -58,4 +66,36 @@ public class AuthService {
         Person person = personService.createPerson(registrationUserDTO);
         return ResponseEntity.ok(new PersonDTO(person.getId(), person.getUsername(), person.getEmail()));
     }
+    public JwtResponse getAccessToken( String refreshToken) {
+        if (jwtUtil.validateRefreshToken(refreshToken)) {
+
+            final String login = jwtUtil.getUsernameFromRefreshToken(refreshToken);
+            final String saveRefreshToken = refreshStorage.get(login);
+            if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
+                final UserDetails user = personService.loadUserByUsername(login);
+                final String accessToken = jwtUtil.generateToken(user);
+                return new JwtResponse(accessToken, null);
+            }
+        }
+        return new JwtResponse(null, null);
+    }
+    public JwtResponse refresh( String refreshToken) {
+        if (jwtUtil.validateRefreshToken(refreshToken)) {
+
+            final String login = jwtUtil.getUsernameFromRefreshToken(refreshToken);
+            final String saveRefreshToken = refreshStorage.get(login);
+            if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
+                final UserDetails user = personService.loadUserByUsername(login);
+                final String accessToken = jwtUtil.generateToken(user);
+                final String newRefreshToken = jwtUtil.generateRefreshToken(user);
+                refreshStorage.put(user.getUsername(), newRefreshToken);
+                return new JwtResponse(accessToken, newRefreshToken);
+            }
+        }
+        return new JwtResponse(null, null);
+    }
+    /*public JwtAuthentication getAuthInfo() {
+        return (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
+    }*/
+
 }

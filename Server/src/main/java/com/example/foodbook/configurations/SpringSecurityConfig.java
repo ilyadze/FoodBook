@@ -26,7 +26,6 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SpringSecurityConfig {
     private  PersonService personService;
     private  JwtRequestFilter jwtRequestFilter;
-
     @Autowired
     public void setPersonService(PersonService personService) {
         this.personService = personService;
