@@ -19,6 +19,7 @@ public class JWTUtil {
     //@Value("${jwt.secret.access}")
     //SecretKey
     private String secret= "413F4428472B4B6250655368566D5970337336763979244226452948404D6351";
+    //@Value("${jwt.secret.refresh}")
     private String refreshSecret="secret2";
     private Duration lifetime=Duration.ofMinutes(30L);
     private Duration lifetime2=Duration.ofMinutes(1L);
@@ -30,7 +31,7 @@ public class JWTUtil {
         claims.put("roles",rolesList);
         //Можно добавить любые поля если передать person
         Date issuedDate = new Date();
-        Date expiredDate = new Date(issuedDate.getTime()+ +lifetime2.toMillis());
+        Date expiredDate = new Date(issuedDate.getTime() +lifetime2.toMillis());
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
