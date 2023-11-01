@@ -19,10 +19,6 @@ public class Recipe {
     @Column(name = "id", nullable = false)
     Long id;
 
-    Long creatorId;
-
-    boolean isAPIRecept=true; //Потом исправить, мб поискать аннотацию с дефолтным значением
-
     String title;
 
     String image;
