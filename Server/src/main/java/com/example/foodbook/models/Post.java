@@ -3,6 +3,7 @@ package com.example.foodbook.models;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,15 +18,15 @@ public class Post {
 
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,
                 mappedBy = "post")
-    private List<PostLike> postLikeList;
+    private List<PostLike> postLikeList= new ArrayList<>();;
 
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,
             mappedBy = "post")
-    private List<PostDislike> postDislikeList;
+    private List<PostDislike> postDislikeList= new ArrayList<>();;
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,
             mappedBy = "post")
-    private List<Comment> commentList;
+    private List<Comment> commentList= new ArrayList<>();;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
     @JoinColumn(name = "pesronId")

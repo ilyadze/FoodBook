@@ -1,9 +1,9 @@
 package com.example.foodbook.controllers;
 
 import com.example.foodbook.dto.RegistrationUserDTO;
-import com.example.foodbook.exceptions.AppError;
-import com.example.foodbook.response.JwtRefreshRequest;
-import com.example.foodbook.response.JwtRequest;
+import com.example.foodbook.requests.FindRecipeRequest;
+import com.example.foodbook.requests.JwtRefreshRequest;
+import com.example.foodbook.requests.JwtRequest;
 import com.example.foodbook.sevices.AuthService;
 
 import lombok.RequiredArgsConstructor;

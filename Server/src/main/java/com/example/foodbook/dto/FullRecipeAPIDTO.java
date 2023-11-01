@@ -1,6 +1,5 @@
 package com.example.foodbook.dto;
 
-import com.example.foodbook.models.Equipment;
 import com.example.foodbook.models.Ingredient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +10,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RecipeAPIDTO {
+public class FullRecipeAPIDTO {
     private Long id;
     private String image;
     private String title;

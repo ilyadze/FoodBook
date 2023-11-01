@@ -5,6 +5,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Cascade;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -15,28 +17,24 @@ import java.util.List;
 public class Recipe {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     Long id;
-
-    Long creatorId;
-
-    boolean isAPIRecept=true; //Потом исправить, мб поискать аннотацию с дефолтным значением
-
     String title;
-
     String image;
-
-    String instruction;
-
+    @Column(length = 3000)
+    String instructions;
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-    List<RecipeIngredient> recipeIngredient;
-
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-    List<Post> posts;
+    List<Post> posts= new ArrayList<>();;
 
     @ManyToMany(mappedBy = "recipes", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    List<Equipment> equipment;
+    List<Equipment> equipment= new ArrayList<>();;
+    @ManyToMany
+    @JoinTable(
+            name = "recipes_ingredients",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
+    )
+    List<Ingredient> ingredients;
 
 
 }

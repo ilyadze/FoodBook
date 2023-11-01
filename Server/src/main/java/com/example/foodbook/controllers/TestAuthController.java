@@ -10,8 +10,8 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class TestAuthController {
     @GetMapping("/unsecured")
-    public String unsecuredData(){
-        return "Insecured data";
+    public String unsecuredData(Principal principal){
+        return "Insecured data "+principal.getName();
     }
 
     @GetMapping("/secured")

@@ -1,5 +1,5 @@
 package com.example.foodbook.response;
-import com.example.foodbook.dto.RecipeAPIDTO;
+import com.example.foodbook.dto.FullRecipeAPIDTO;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,5 +14,5 @@ public class RecipeApiResponse {
     /*Long id;
     String title;
     String Image;*/
-    List <RecipeAPIDTO> results;
+    List <FullRecipeAPIDTO> results;
 }

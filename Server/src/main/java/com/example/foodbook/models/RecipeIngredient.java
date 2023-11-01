@@ -1,3 +1,4 @@
+/*
 package com.example.foodbook.models;
 
 import jakarta.persistence.*;
@@ -30,3 +31,4 @@ public class RecipeIngredient {
     Recipe recipe;
 
 }
+*/

@@ -6,10 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Data
@@ -40,29 +37,29 @@ public class Person /*implements UserDetails*/ {
     private Collection <Role> roles;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "follower")
-    private List<Relationship> followerList; // Подписчики
+    private List<Relationship> followerList= new ArrayList<>();; // Подписчики
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "following")
-    private List<Relationship> followingList; // Подписки
+    private List<Relationship> followingList= new ArrayList<>();; // Подписки
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
-    private List<Privacy> privacyList; // Кто у нас скрыт
+    private List<Privacy> privacyList= new ArrayList<>();; // Кто у нас скрыт
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hiddenPerson")
-    private List<Privacy> notOurPrivacyList; // У кого мы скрыты
+    private List<Privacy> notOurPrivacyList= new ArrayList<>();; // У кого мы скрыты
 
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
-    private List<PostLike> postLikeList;
+    private List<PostLike> postLikeList= new ArrayList<>();;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
-    private List<PostDislike> postDislikeList;
+    private List<PostDislike> postDislikeList= new ArrayList<>();;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
-    private List<Comment> commentList;
+    private List<Comment> commentList= new ArrayList<>();;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
-    private List<HistorySearch> historySearchList;
+    private List<HistorySearch> historySearchList= new ArrayList<>();;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
-    private List<Post> postList;
+    private List<Post> postList= new ArrayList<>();;
 
 
     /*@Override

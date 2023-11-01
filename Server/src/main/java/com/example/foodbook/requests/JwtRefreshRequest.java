@@ -1,4 +1,4 @@
-package com.example.foodbook.response;
+package com.example.foodbook.requests;
 
 import lombok.Data;
 

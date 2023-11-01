@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Cascade;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Entity
 @AllArgsConstructor
@@ -16,15 +19,12 @@ import org.hibernate.annotations.Cascade;
 public class Ingredient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     Long id;
 
     String name;
     String image;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    RecipeIngredient recipeIngredient;
 
 
 }

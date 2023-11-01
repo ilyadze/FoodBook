@@ -14,6 +14,12 @@ public class RoleService {
         return roleRepository.findByName(name).get();
     }
     public Role getUserRole() {
+       /* Role role = new Role();
+        role.setName("ROLE_USER");
+        roleRepository.save(role);
+        Role role1 = new Role();
+        role1.setName("ROLE_ADMIN");
+        roleRepository.save(role1);*/
         return roleRepository.findByName("ROLE_USER").get();
     }
 }

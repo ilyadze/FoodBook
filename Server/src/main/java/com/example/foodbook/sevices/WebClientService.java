@@ -1,6 +1,6 @@
 package com.example.foodbook.sevices;
 
-import com.example.foodbook.dto.RecipeAPIDTO;
+import com.example.foodbook.dto.FullRecipeAPIDTO;
 import com.example.foodbook.models.Person;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,14 +12,14 @@ public class WebClientService {
 /////////////////////////////////////////////////////////////////////////////
 private final String API_KEY="3345d443c0e4442c8060dee679aa8c53";
     private final WebClient webClient;
-    public RecipeAPIDTO getRecipeById(Long id){
+    public FullRecipeAPIDTO getRecipeById(Long id){
         return webClient.get()
                 .uri(uriBuilder ->uriBuilder
                         .path("recipes/"+id+"/information")
                         .queryParam("apiKey",API_KEY)
                         .build())
                 .retrieve()
-                .bodyToMono(RecipeAPIDTO.class)
+                .bodyToMono(FullRecipeAPIDTO.class)
                 .doOnError(error-> System.out.println("error: " +error.getMessage()))
                 .block();
     }

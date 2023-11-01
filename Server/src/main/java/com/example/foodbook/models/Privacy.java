@@ -7,8 +7,6 @@ import lombok.Data;
 @Entity
 @Data
 public class Privacy {
-
-
     @Id
     @GeneratedValue
     private Long id;

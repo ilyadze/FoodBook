@@ -2,13 +2,12 @@ package com.example.foodbook.sevices;
 
 import com.example.foodbook.dto.PersonDTO;
 import com.example.foodbook.dto.RegistrationUserDTO;
-import com.example.foodbook.exceptions.AppError;
 import com.example.foodbook.exceptions.LocalException;
 import com.example.foodbook.models.Person;
-import com.example.foodbook.response.JwtRequest;
+import com.example.foodbook.requests.FindRecipeRequest;
+import com.example.foodbook.requests.JwtRequest;
 import com.example.foodbook.response.JwtResponse;
 import com.example.foodbook.utils.JWTUtil;
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashMap;

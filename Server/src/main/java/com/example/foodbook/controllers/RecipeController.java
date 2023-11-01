@@ -1,6 +1,6 @@
 package com.example.foodbook.controllers;
 
-import com.example.foodbook.dto.RecipeAPIDTO;
+import com.example.foodbook.dto.FullRecipeAPIDTO;
 import com.example.foodbook.response.EquipmentApiResponse;
 import com.example.foodbook.response.RecipeApiResponse;
 
@@ -47,7 +47,7 @@ public class RecipeController {
 
 
                         String apiUrl2 = "http://localhost:8080/recipes/" + test.getResults().get(j).getId();
-                        test.getResults().set(j,restTemplate.getForObject(apiUrl2, RecipeAPIDTO.class));
+                        test.getResults().set(j,restTemplate.getForObject(apiUrl2, FullRecipeAPIDTO.class));
                          String apiUrl3 = "http://localhost:8080/equipment/" + test.getResults().get(j).getId();
                          test.getResults().get(j).setEquipment(restTemplate.getForObject(apiUrl3, EquipmentApiResponse.class).getEquipment());
                 }
@@ -66,7 +66,7 @@ public class RecipeController {
         RestTemplate restTemplate = new RestTemplate();
         String apiUrl = "https://api.spoonacular.com/recipes/"+recipeId+"/information?"+"&apiKey="+API_KEY;
         try {
-            RecipeAPIDTO test = restTemplate.getForObject(apiUrl, RecipeAPIDTO.class);
+            FullRecipeAPIDTO test = restTemplate.getForObject(apiUrl, FullRecipeAPIDTO.class);
             return ResponseEntity.ok(test);
 
         } catch (Exception e) {
