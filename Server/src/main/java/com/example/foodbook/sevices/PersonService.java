@@ -1,5 +1,4 @@
 package com.example.foodbook.sevices;
-
 import com.example.foodbook.dto.RegistrationUserDTO;
 import com.example.foodbook.models.Person;
 
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
 @Service
 @RequiredArgsConstructor
 public class PersonService implements UserDetailsService {
@@ -45,7 +43,6 @@ public class PersonService implements UserDetailsService {
     }
 
     public Optional<Person> findByUsername(String username) {
-
         return this.repository.findByUsername(username);
     }
 
