@@ -1,12 +1,8 @@
 package com.example.foodbook.sevices;
-
 import com.example.foodbook.dto.FullRecipeAPIDTO;
 import com.example.foodbook.models.Ingredient;
-import com.example.foodbook.models.Person;
-import com.example.foodbook.models.Post;
 import com.example.foodbook.models.Recipe;
 import com.example.foodbook.repositories.EquipmentRepository;
-import com.example.foodbook.repositories.IngredientRepository;
 import com.example.foodbook.repositories.RecipeRepository;
 import com.example.foodbook.requests.FindRecipeRequest;
 import com.example.foodbook.response.FindRecipeResponce;
@@ -17,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +22,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class RecipeService {
     private final WebClient webClient;
-
     private final String API_KEY="88287130027b4c26bd5273c03ad85b36";
     /*private final String API_KEY="3345d443c0e4442c8060dee679aa8c53";*/
     private final String REQUEST="/recipes/complexSearch";
@@ -39,7 +32,6 @@ public class RecipeService {
     public Recipe f(Long id){
         return recipeRepository.findById(id).get();
     }
-
     public FindRecipeResponce findRecipe(FindRecipeRequest findRecipeRequest) {
         Map<String, String> params = new HashMap<>();
         if (findRecipeRequest.getRecipeName() != null) {
@@ -64,7 +56,6 @@ public class RecipeService {
                 .bodyToMono(FindRecipeResponce.class)
                 .doOnError(error -> System.out.println("error: " + error.getMessage()))
                 .block();
-
     }
     public FullRecipeAPIDTO getRecipeById(Long id){
         return webClient.get()
@@ -89,5 +80,4 @@ public class RecipeService {
         recipeRepository.save(recipe);
         return recipe;
     }
-
 }

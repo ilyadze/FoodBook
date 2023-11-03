@@ -1,11 +1,6 @@
 package com.example.foodbook.models;
-
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.*;
 
 @Entity
@@ -20,6 +15,7 @@ public class Person /*implements UserDetails*/ {
     private String username;
     @Column(unique = true)
     private String email;
+    private String image;
     private String password;
     private String description;
 /*
@@ -35,53 +31,40 @@ public class Person /*implements UserDetails*/ {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Collection <Role> roles;
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "follower")
-    private List<Relationship> followerList= new ArrayList<>();; // Подписчики
-
+    private List<Relationship> followerList= new ArrayList<>(); // Подписчики
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "following")
-    private List<Relationship> followingList= new ArrayList<>();; // Подписки
-
+    private List<Relationship> followingList= new ArrayList<>(); // Подписки
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
-    private List<Privacy> privacyList= new ArrayList<>();; // Кто у нас скрыт
-
+    private List<Privacy> privacyList= new ArrayList<>(); // Кто у нас скрыт
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hiddenPerson")
-    private List<Privacy> notOurPrivacyList= new ArrayList<>();; // У кого мы скрыты
-
-
+    private List<Privacy> notOurPrivacyList= new ArrayList<>();// У кого мы скрыты
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
-    private List<PostLike> postLikeList= new ArrayList<>();;
-
+    private List<PostLike> postLikeList= new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
-    private List<PostDislike> postDislikeList= new ArrayList<>();;
+    private List<PostDislike> postDislikeList= new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
-    private List<Comment> commentList= new ArrayList<>();;
+    private List<Comment> commentList= new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
-    private List<HistorySearch> historySearchList= new ArrayList<>();;
+    private List<HistorySearch> historySearchList= new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
-    private List<Post> postList= new ArrayList<>();;
-
-
+    private List<Post> postList= new ArrayList<>();
     /*@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return (Collection<? extends GrantedAuthority>) roles;
     }
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
     @Override
     public boolean isEnabled() {
         return true;
