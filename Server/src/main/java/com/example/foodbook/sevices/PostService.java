@@ -26,6 +26,10 @@ public class PostService {
     private final RecipeService recipeService;
     private final PostRepository postRepository;
 
+    public Post findPostById(long id){
+        return postRepository.findById(id).orElseThrow();//todo add exception
+    }
+
     public void replyRecipe(Long id,String username){
         Person person = personService.findByUsername(username).get();
         if (isPostAlive(id,person.getId())){

@@ -1,10 +1,9 @@
 package com.example.foodbook.sevices;
+
 import com.example.foodbook.dto.RegistrationUserDTO;
 import com.example.foodbook.models.Person;
 
-import com.example.foodbook.models.Role;
 import com.example.foodbook.repositories.PersonRepository;
-import com.example.foodbook.repositories.RoleRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -19,15 +18,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class PersonService implements UserDetailsService {
-    private   PersonRepository repository;
+    private   PersonRepository personRepository;
     private  RoleService roleService;
     private  PasswordEncoder passwordEncoder;
     @Autowired
-    public void setRepository(PersonRepository repository) {
-        this.repository = repository;
+    public void setPersonRepository(PersonRepository personRepository) {
+        this.personRepository = personRepository;
     }
     @Autowired
     public void setRoleService(RoleService roleService) {
@@ -39,11 +39,16 @@ public class PersonService implements UserDetailsService {
     }
 
     public List<Person> getAll() {
-        return this.repository.findAll();
+        return this.personRepository.findAll();
+    }
+
+    public Person findById(long personId){
+     return personRepository.findById(personId).orElseThrow(()-> new UsernameNotFoundException(("User with this id not found")));//todo
     }
 
     public Optional<Person> findByUsername(String username) {
-        return this.repository.findByUsername(username);
+
+        return this.personRepository.findByUsername(username);
     }
 
     @Override
@@ -69,7 +74,7 @@ public class PersonService implements UserDetailsService {
         person.setEmail(registrationUserDTO.getEmail());
         person.setRoles(List.of(roleService.getUserRole()));
         System.out.println(2);
-        return repository.save(person);
+        return personRepository.save(person);
     }
 
 }

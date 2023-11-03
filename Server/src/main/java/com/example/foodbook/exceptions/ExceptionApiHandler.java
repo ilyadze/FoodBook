@@ -21,5 +21,11 @@ public class ExceptionApiHandler {
         return  new ResponseEntity<>(new AppError( HttpStatus.NOT_FOUND.value(),"Ошибка в Базе данных"), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<?> commentDataException(CommentException exception){
+        return new ResponseEntity<>(new AppError(exception.getBody().getStatus(),exception.getReason()), exception.getStatusCode());
+    }
+
+
 
 }
