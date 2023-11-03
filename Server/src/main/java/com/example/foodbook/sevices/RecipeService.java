@@ -70,14 +70,22 @@ public class RecipeService {
     }
     public Recipe createRecipe(Long id){
         FullRecipeAPIDTO fullRecipeAPIDTO = getRecipeById(id);
-        System.out.println("Прикол");
-        Recipe recipe = new Recipe();
-        modelMapper.map(fullRecipeAPIDTO,recipe);
-        List<Ingredient> ingredientList= fullRecipeAPIDTO.getExtendedIngredients();
-        ingredientList.forEach(ingredientService::saveIngredient);
-        recipe.setIngredients(ingredientList);
-        recipe.setInstructions(fullRecipeAPIDTO.getInstructions());
+        Recipe recipe = convertDTOToRecipe(fullRecipeAPIDTO);
+        //todo Проверка на то или есть такой ингридиент в бд, чтобы не перезаписывало
+        recipe.getIngredients().forEach(ingredientService::saveIngredient);
         recipeRepository.save(recipe);
         return recipe;
+    }
+    public Recipe convertDTOToRecipe(FullRecipeAPIDTO fullRecipeAPIDTO){
+        Recipe recipe = new Recipe();
+        modelMapper.map(fullRecipeAPIDTO,recipe);
+        recipe.setIngredients(fullRecipeAPIDTO.getExtendedIngredients());
+        return recipe;
+    }
+    public FullRecipeAPIDTO convertRecipeToDTO(Recipe recipe){
+        FullRecipeAPIDTO fullRecipeAPIDTO = new FullRecipeAPIDTO();
+        modelMapper.map(recipe,fullRecipeAPIDTO);
+        fullRecipeAPIDTO.setExtendedIngredients(recipe.getIngredients());
+        return fullRecipeAPIDTO;
     }
 }

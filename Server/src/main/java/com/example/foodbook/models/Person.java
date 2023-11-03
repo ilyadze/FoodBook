@@ -31,22 +31,25 @@ public class Person /*implements UserDetails*/ {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Collection <Role> roles;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "follower")
     private List<Relationship> followerList= new ArrayList<>(); // Подписчики
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "following")
     private List<Relationship> followingList= new ArrayList<>(); // Подписки
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private List<Privacy> privacyList= new ArrayList<>(); // Кто у нас скрыт
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hiddenPerson")
     private List<Privacy> notOurPrivacyList= new ArrayList<>();// У кого мы скрыты
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
     private List<PostLike> postLikeList= new ArrayList<>();
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
-    private List<PostDislike> postDislikeList= new ArrayList<>();
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
     private List<Comment> commentList= new ArrayList<>();
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
-    private List<HistorySearch> historySearchList= new ArrayList<>();
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
     private List<Post> postList= new ArrayList<>();
     /*@Override

@@ -26,6 +26,7 @@ public class newRecipeController {
     @PostMapping("/reply/{id}")
     public String replyRecipe(@PathVariable(name="id") Long id, Principal principal){
         postService.replyRecipe(id,principal.getName());
+        //todo Сделать проверку на уже существующие посты
         return "Все ок";
     }
 }

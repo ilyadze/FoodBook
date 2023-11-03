@@ -13,8 +13,8 @@ public class RoleService {
     public Role findRoleByName(String name){
         return roleRepository.findByName(name).get();
     }
-    public Role getUserRole() {
-       /* Role role = new Role();
+    public Role getUserRole() {//TODO
+        /*Role role = new Role();
         role.setName("ROLE_USER");
         roleRepository.save(role);
         Role role1 = new Role();

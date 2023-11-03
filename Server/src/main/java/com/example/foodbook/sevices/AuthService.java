@@ -60,7 +60,7 @@ public class AuthService {
             throw new LocalException(HttpStatus.BAD_REQUEST,"Такой пользователь уже существует");
           /*  return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Такой пользователь уже существует"),HttpStatus.BAD_REQUEST);
       */  }
-
+       //todo проверку почты
         Person person = personService.createPerson(registrationUserDTO);
         return ResponseEntity.ok(new PersonDTO(person.getId(), person.getUsername(), person.getEmail()));
     }
