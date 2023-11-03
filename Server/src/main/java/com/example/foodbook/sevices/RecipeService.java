@@ -34,8 +34,8 @@ public class RecipeService {
     private final String REQUEST="/recipes/complexSearch";
     private  final ModelMapper modelMapper;
     private final RecipeRepository recipeRepository;
-    private final IngredientRepository ingredientRepository;
     private final EquipmentRepository equipmentRepository;
+    private final IngredientService ingredientService;
     public Recipe f(Long id){
         return recipeRepository.findById(id).get();
     }
@@ -83,17 +83,11 @@ public class RecipeService {
         Recipe recipe = new Recipe();
         modelMapper.map(fullRecipeAPIDTO,recipe);
         List<Ingredient> ingredientList= fullRecipeAPIDTO.getExtendedIngredients();
-        ingredientList.forEach(this::saveIngredient);
+        ingredientList.forEach(ingredientService::saveIngredient);
         recipe.setIngredients(ingredientList);
         recipe.setInstructions(fullRecipeAPIDTO.getInstructions());
-        System.out.println("До :");
-        System.out.println(fullRecipeAPIDTO);
-        System.out.println("После :");
-        System.out.println(recipe);
         recipeRepository.save(recipe);
         return recipe;
     }
-    public void saveIngredient(Ingredient ingredient){
-         ingredientRepository.save(ingredient);
-    }
+
 }

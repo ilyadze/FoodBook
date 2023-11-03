@@ -1,5 +1,6 @@
 package com.example.foodbook.exceptions;
 
+import jakarta.persistence.NonUniqueResultException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,10 @@ public class ExceptionApiHandler {
         return  new ResponseEntity<>(new AppError(exception.getBody().getStatus(),exception.getReason()), exception.getStatusCode());
     }
 
+    @ExceptionHandler(jakarta.persistence.NonUniqueResultException.class)
+    public ResponseEntity<?> notFoundException(NonUniqueResultException exception) {
+        return  new ResponseEntity<>(new AppError( HttpStatus.NOT_FOUND.value(),"Ошибка в Базе данных"), HttpStatus.NOT_FOUND);
+    }
 
 
 }

@@ -1,15 +1,11 @@
 package com.example.foodbook.controllers;
-
-import com.example.foodbook.models.Recipe;
 import com.example.foodbook.requests.FindRecipeRequest;
 import com.example.foodbook.sevices.PostService;
 import com.example.foodbook.sevices.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
-
 @RestController
 @RequiredArgsConstructor
 public class newRecipeController {
