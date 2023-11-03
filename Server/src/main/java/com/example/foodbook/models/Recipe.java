@@ -15,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Recipe {
-
     @Id
     @Column(name = "id", nullable = false)
     Long id;
@@ -25,7 +24,6 @@ public class Recipe {
     String instructions;
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     List<Post> posts= new ArrayList<>();;
-
     @ManyToMany(mappedBy = "recipes", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     List<Equipment> equipment= new ArrayList<>();;
     @ManyToMany
@@ -35,6 +33,4 @@ public class Recipe {
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
     List<Ingredient> ingredients;
-
-
 }
