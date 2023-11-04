@@ -1,11 +1,14 @@
 package com.example.foodbook.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Data
 @Table
+@AllArgsConstructor
+@NoArgsConstructor
 public class Relationship {
 
     @Id
@@ -20,4 +23,5 @@ public class Relationship {
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.REFRESH)
     @JoinColumn(name = "followingId")
     private Person following; // Тот, на кого подписываются
+
 }

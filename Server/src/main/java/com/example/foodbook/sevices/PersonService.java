@@ -25,18 +25,6 @@ public class PersonService implements UserDetailsService {
     private   PersonRepository personRepository;
     private  RoleService roleService;
     private  PasswordEncoder passwordEncoder;
-    @Autowired
-    public void setPersonRepository(PersonRepository personRepository) {
-        this.personRepository = personRepository;
-    }
-    @Autowired
-    public void setRoleService(RoleService roleService) {
-        this.roleService = roleService;
-    }
-    @Autowired
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public List<Person> getAll() {
         return this.personRepository.findAll();
@@ -51,6 +39,10 @@ public class PersonService implements UserDetailsService {
         return this.personRepository.findByUsername(username);
     }
 
+
+    public  Optional<List<Person>> findFollowersById(Long id) {
+        return null;
+    }
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
