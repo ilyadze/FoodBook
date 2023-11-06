@@ -1,14 +1,15 @@
 package com.example.foodbook.models;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.EqualsAndHashCode;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.util.*;
 
 @Entity
 @Data
 @Table(name = "person")
+@EqualsAndHashCode
 public class Person /*implements UserDetails*/ {
 
     @Id
@@ -32,10 +33,10 @@ public class Person /*implements UserDetails*/ {
     private Collection <Role> roles;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "follower")
-    private List<Relationship> followerList= new ArrayList<>(); // Подписчики
+    private List<Relationship> followers = new ArrayList<>(); // Подписчики
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "following")
-    private List<Relationship> followingList= new ArrayList<>(); // Подписки
+    private List<Relationship> followings = new ArrayList<>(); // Подписки
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
     private List<PostLike> postLikeList= new ArrayList<>();
@@ -45,5 +46,14 @@ public class Person /*implements UserDetails*/ {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
     private List<Post> postList= new ArrayList<>();
+
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "person_blocked_persons",
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "blocked_person_id")
+    )
+    private List<Person> blockedPersons = new ArrayList<>();
 
 }

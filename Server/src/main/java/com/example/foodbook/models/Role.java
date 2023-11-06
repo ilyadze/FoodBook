@@ -16,11 +16,13 @@ public enum Role implements GrantedAuthority {
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
 @Table(name = "roles")
 @AllArgsConstructor
+@EqualsAndHashCode
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

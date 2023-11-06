@@ -12,4 +12,9 @@ import java.util.Optional;
 @Repository
 public interface RelationshipRepository extends JpaRepository<Relationship, Long> {
 
+    boolean existsByFollowerAndFollowing(Person follower, Person following);
+
+    List<Relationship> findAllByFollowingId(Long userId);
+
+    List<Relationship> findAll();
 }
