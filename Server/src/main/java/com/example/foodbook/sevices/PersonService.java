@@ -100,4 +100,7 @@ public class PersonService implements UserDetailsService {
 
     }
 
+    public void savePerson(Person person) {
+        personRepository.save(person);
+    }
 }
