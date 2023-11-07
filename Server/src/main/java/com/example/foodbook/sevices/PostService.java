@@ -9,7 +9,6 @@ import com.example.foodbook.models.Recipe;
 import com.example.foodbook.repositories.PostRepository;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +28,7 @@ public class PostService {
     public Post findPostById(long id){
         return postRepository.findById(id).orElseThrow();//todo add exception
     }
-    public List<PostDTO> getPostByUserId(Long id){
+    public List<PostDTO> getPostsByUserId(Long id){
         List<Post> posts= postRepository.getPostByPersonId(id);
         List<PostDTO> postDTOList = new ArrayList<>();
         posts.forEach(post -> {
