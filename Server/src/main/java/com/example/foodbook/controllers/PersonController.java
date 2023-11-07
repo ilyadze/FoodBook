@@ -30,15 +30,15 @@ public class PersonController {
 
     @GetMapping()
     public ResponseEntity<?> getPerson(Authentication authentication) {
-        return ResponseEntity.ok(personService.findByUsername(authentication.getName()).get());
+        return ResponseEntity.ok(personService.findByUsername(authentication.getName()));
     }
 
     @GetMapping("/{id")
     public ResponseEntity<?> getPerson( @PathVariable("id") Long id, Authentication authentication) {
         Person findingPerson = personService.findById(id);
-        Person person = personService.findByUsername(authentication.getName()).get();
+        Person person = personService.findByUsername(authentication.getName());
         if(!person.getIsPrivate() && findingPerson.getBlockedPersons().contains(person)) {
-            return ResponseEntity.ok(personService.findByUsername(authentication.getName()).get());
+            return ResponseEntity.ok(personService.findByUsername(authentication.getName()));
         } else {
             throw new CommentException(HttpStatus.BAD_REQUEST, "Аккаунт приватный");
         }
@@ -47,7 +47,7 @@ public class PersonController {
     @GetMapping("/followers")
     public ResponseEntity<?> getFollowers(Authentication authentication) {
         String username = authentication.getName();
-        Person person = personService.findByUsername(username).get();
+        Person person = personService.findByUsername(username);
 //        return ResponseEntity.ok(person.getFollowers());
 //        return ResponseEntity.ok(personService.getFollowers(person));
         return ResponseEntity.ok(relationshipService.getFollowersByUserId(person.getId()));
@@ -58,8 +58,8 @@ public class PersonController {
     public ResponseEntity<?> addFollower(Authentication authentication,
                                               @RequestParam("following") String followingUsername) {
         String username = authentication.getName();
-        Person follower = personService.findByUsername(username).get();
-        Person following = personService.findByUsername(followingUsername).get();
+        Person follower = personService.findByUsername(username);
+        Person following = personService.findByUsername(followingUsername);
         if (!relationshipService.ifPersonFollowed(follower, following)) {
             personService.addFollower(follower, following);
             return ResponseEntity.ok("Пользователь подписался");
@@ -71,7 +71,7 @@ public class PersonController {
     @GetMapping("/blocked_list")
     public ResponseEntity<?> getBlockedList(Authentication authentication) {
         String username = authentication.getName();
-        Person person = personService.findByUsername(username).get();
+        Person person = personService.findByUsername(username);
         return ResponseEntity.ok(person.getBlockedPersons());
     }
 
@@ -79,7 +79,7 @@ public class PersonController {
     public ResponseEntity<?> addToBlockedList(Authentication authentication,
                                               @RequestParam("username") String blockedUsername) {
         String username = authentication.getName();
-        Person person = personService.findByUsername(username).get();
+        Person person = personService.findByUsername(username);
         if (personService.addBlockedPerson(person, blockedUsername)) {
             return ResponseEntity.ok("Пользователь заблокирован");
         } else {
