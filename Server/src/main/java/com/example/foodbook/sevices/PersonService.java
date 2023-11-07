@@ -56,14 +56,12 @@ public class PersonService implements UserDetailsService {
 
     public Person createPerson( RegistrationUserDTO registrationUserDTO){
         //Проверку сделать
-        System.out.println(1);
         Person person = new Person();
         person.setDescription(registrationUserDTO.getDescription());
         person.setPassword(passwordEncoder.encode(registrationUserDTO.getPassword()));
         person.setUsername(registrationUserDTO.getUsername());
         person.setEmail(registrationUserDTO.getEmail());
         person.setRoles(List.of(roleService.getUserRole()));
-        System.out.println(2);
         return personRepository.save(person);
     }
 
