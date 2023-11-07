@@ -30,7 +30,7 @@ public class CommentService {
     }
 
     public List<CommentDTO> getCommentsById(long postId) {
-        var comments = commentRepository.findCommentByByPostId(postId);
+        var comments = commentRepository.findCommentByPostId(postId);
         if (comments.isEmpty())
             return new ArrayList<>();
         return comments.stream().map(this::mapToCommentDTO).collect(Collectors.toList());

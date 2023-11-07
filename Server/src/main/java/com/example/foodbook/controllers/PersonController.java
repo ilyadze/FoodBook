@@ -33,7 +33,7 @@ public class PersonController {
         return ResponseEntity.ok(personService.findByUsername(authentication.getName()));
     }
 
-    @GetMapping("/{id")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getPerson( @PathVariable("id") Long id, Authentication authentication) {
         Person findingPerson = personService.findById(id);
         Person person = personService.findByUsername(authentication.getName());

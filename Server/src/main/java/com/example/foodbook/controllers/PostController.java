@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
     private final PostService postService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/a/{id}")
     public ResponseEntity<?> getPostById(@PathVariable(name = "id") Long id){
         return ResponseEntity.ok(postService.getFullPostInfo(id));
     }
