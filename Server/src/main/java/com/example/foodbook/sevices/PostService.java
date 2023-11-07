@@ -45,7 +45,7 @@ public class PostService {
     }
 
     public void replyRecipe(Long recipeId,String username){
-        Person person = personService.findByUsername(username).get();
+        Person person = personService.findByUsername(username);
         if (isPostAlive(recipeId,person.getId())){
             throw new LocalException(HttpStatus.CONFLICT,"Такой рецпт уже добавлен");
         }
