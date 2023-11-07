@@ -24,4 +24,5 @@ public class CommentDTO {
     Long postId;
     Long personId;
 
+    String image;
 }

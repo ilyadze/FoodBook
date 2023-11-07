@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -21,40 +20,36 @@ public class PersonController {
 
     private final RelationshipService relationshipService;
 
-    private final PasswordEncoder passwordEncoder;
+//    @GetMapping("/followings")
+//    public ResponseEntity<?> getFollowings(Authentication authentication) {
+//        String username = authentication.getName();
+//        Person person = personService.findByUsername(username).get();
+//
+//        return ResponseEntity.ok(relationshipService.findByFollower(person));
+//    }
 
     @GetMapping()
     public ResponseEntity<?> getPerson(Authentication authentication) {
         return ResponseEntity.ok(personService.findByUsername(authentication.getName()).get());
     }
 
-    @GetMapping("/{username}")
-    public ResponseEntity<?> getPerson( @PathVariable("username") String username, Authentication authentication) {
-        Person findingPerson = personService.findByUsername(username).get();
+    @GetMapping("/{id")
+    public ResponseEntity<?> getPerson( @PathVariable("id") Long id, Authentication authentication) {
+        Person findingPerson = personService.findById(id);
         Person person = personService.findByUsername(authentication.getName()).get();
-        if(!findingPerson.getIsPrivate() && findingPerson.getBlockedPersons().contains(person)) {
+        if(!person.getIsPrivate() && findingPerson.getBlockedPersons().contains(person)) {
             return ResponseEntity.ok(personService.findByUsername(authentication.getName()).get());
         } else {
             throw new CommentException(HttpStatus.BAD_REQUEST, "Аккаунт приватный");
         }
     }
 
-    @PatchMapping("/update")
-    public ResponseEntity<?> updatePerson(Authentication authentication,
-                                          @RequestBody Person updatePerson) {
-        Person person = personService.findByUsername(authentication.getName()).orElseThrow(RuntimeException::new);
-        person.setUsername(updatePerson.getUsername());
-        person.setPassword(passwordEncoder.encode(updatePerson.getPassword()));
-        person.setDescription(updatePerson.getDescription());
-        person.setIsPrivate(updatePerson.getIsPrivate());
-        personService.savePerson(person);
-        return ResponseEntity.ok(person);
-    }
-
     @GetMapping("/followers")
     public ResponseEntity<?> getFollowers(Authentication authentication) {
         String username = authentication.getName();
         Person person = personService.findByUsername(username).get();
+//        return ResponseEntity.ok(person.getFollowers());
+//        return ResponseEntity.ok(personService.getFollowers(person));
         return ResponseEntity.ok(relationshipService.getFollowersByUserId(person.getId()));
     }
 
@@ -63,8 +58,8 @@ public class PersonController {
     public ResponseEntity<?> addFollower(Authentication authentication,
                                               @RequestParam("following") String followingUsername) {
         String username = authentication.getName();
-        Person follower = personService.findByUsername(username).orElseThrow(RuntimeException::new);
-        Person following = personService.findByUsername(followingUsername).orElseThrow(RuntimeException::new);
+        Person follower = personService.findByUsername(username).get();
+        Person following = personService.findByUsername(followingUsername).get();
         if (!relationshipService.ifPersonFollowed(follower, following)) {
             personService.addFollower(follower, following);
             return ResponseEntity.ok("Пользователь подписался");
@@ -76,7 +71,7 @@ public class PersonController {
     @GetMapping("/blocked_list")
     public ResponseEntity<?> getBlockedList(Authentication authentication) {
         String username = authentication.getName();
-        Person person = personService.findByUsername(username).orElseThrow(RuntimeException::new);
+        Person person = personService.findByUsername(username).get();
         return ResponseEntity.ok(person.getBlockedPersons());
     }
 
@@ -84,7 +79,7 @@ public class PersonController {
     public ResponseEntity<?> addToBlockedList(Authentication authentication,
                                               @RequestParam("username") String blockedUsername) {
         String username = authentication.getName();
-        Person person = personService.findByUsername(username).orElseThrow(RuntimeException::new);
+        Person person = personService.findByUsername(username).get();
         if (personService.addBlockedPerson(person, blockedUsername)) {
             return ResponseEntity.ok("Пользователь заблокирован");
         } else {

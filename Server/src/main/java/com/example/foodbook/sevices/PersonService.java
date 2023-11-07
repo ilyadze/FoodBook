@@ -44,9 +44,8 @@ public class PersonService implements UserDetailsService {
      return personRepository.findById(personId).orElseThrow(()-> new UsernameNotFoundException(("User with this id not found")));//todo
     }
 
-    public Optional<Person> findByUsername(String username) {
-
-        return this.personRepository.findByUsername(username);
+    public Person findByUsername(String username) {
+        return personRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException(("User with this id not found")));
     }
 
 
@@ -56,9 +55,7 @@ public class PersonService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Person person = findByUsername(username).orElseThrow(()->new UsernameNotFoundException(
-                String.format("Пользователь '%s не найден",username)
-        ));
+        Person person = findByUsername(username);
         return new User(
                 person.getUsername(),
                 person.getPassword(),
