@@ -37,11 +37,9 @@ public class PersonService implements UserDetailsService {
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
-
     public List<Person> getAll() {
         return this.personRepository.findAll();
     }
-
     public Person findById(long personId){
      return personRepository.findById(personId).orElseThrow(()-> new UsernameNotFoundException(("User with this id not found")));//todo
     }

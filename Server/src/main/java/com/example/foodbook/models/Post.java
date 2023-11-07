@@ -26,10 +26,10 @@ public class Post {
     private List<Comment> commentList= new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "personId")
+    @JoinColumn(name = "person_id")
     private Person person;
 
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "recipeId", referencedColumnName = "id")
+    @JoinColumn(name = "recipe_id", referencedColumnName = "id")
     private Recipe recipe;
 }

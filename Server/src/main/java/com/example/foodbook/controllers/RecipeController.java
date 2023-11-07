@@ -8,21 +8,24 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 @RestController
 @RequiredArgsConstructor
-public class newRecipeController {
+public class RecipeController {
     private final RecipeService recipeService;
     private final PostService postService;
     @GetMapping("/findRecipe")
     public ResponseEntity<?> findRecipe(@RequestBody FindRecipeRequest findRecipeRequest){
         return ResponseEntity.ok(recipeService.findRecipe(findRecipeRequest));
     }
-    @GetMapping("/recipeApi/{id}")
+
+    //TODO
+    @GetMapping("/recipe/{id}")
     public ResponseEntity<?> findRecipeApiById(@PathVariable(name = "id")Long id){
         /*Recipe recipe = recipeService.f(id);
         System.out.println(recipe);*/
         /*return ResponseEntity.ok(recipeService.f(id));*/
        /* return ResponseEntity.badRequest().body(recipe);*/
-        return ResponseEntity.ok(recipeService.getRecipeById(id));
+        return ResponseEntity.ok(recipeService.getFullRicipeById(id));
     }
+
     @PostMapping("/reply/{id}")
     public String replyRecipe(@PathVariable(name="id") Long id, Principal principal){
         postService.replyRecipe(id,principal.getName());

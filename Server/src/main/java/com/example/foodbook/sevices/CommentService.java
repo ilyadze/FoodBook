@@ -4,15 +4,18 @@ import com.example.foodbook.dto.CommentDTO;
 import com.example.foodbook.models.Comment;
 import com.example.foodbook.repositories.CommentRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CommentService {
 
     private final CommentRepository commentRepository;
     private final PersonService personService;
     private final PostService postService;
+
 
     public void save(CommentDTO commentDTO) {
         System.out.println(commentDTO);

@@ -19,11 +19,16 @@ public class Recipe {
     @Column(name = "id", nullable = false)
     Long id;
     String title;
+    String readyInMinutes;
     String image;
-    @Column(length = 3000)
+    @Column(columnDefinition = "text")
     String instructions;
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-    List<Post> posts= new ArrayList<>();;
+    List<Post> posts= new ArrayList<>();
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    List<RecipeNutrient> recipeNutrients= new ArrayList<>();
+
     @ManyToMany(mappedBy = "recipes", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     List<Equipment> equipment= new ArrayList<>();;
     @ManyToMany
@@ -32,5 +37,5 @@ public class Recipe {
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
-    List<Ingredient> ingredients;
+    List<Ingredient> ingredients = new ArrayList<>();
 }

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ErrorMessages {
-
     public static List<String> getErrorMessages(BindingResult bindingResult) {
         return bindingResult.getAllErrors()
                 .stream()

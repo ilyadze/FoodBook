@@ -43,6 +43,7 @@ public class SpringSecurityConfig {
                   request
                           .requestMatchers("/secured").authenticated()
                           .requestMatchers("/info").authenticated()
+                          .requestMatchers("/reply/**").authenticated()
                           .requestMatchers("/admin").hasRole("ADMIN")
                           .anyRequest().permitAll())
                           /*request.requestMatchers("/**").permitAll()

@@ -1,21 +1,26 @@
 package com.example.foodbook.sevices;
+import com.example.foodbook.configurations.MapperConfiguration;
 import com.example.foodbook.dto.FullRecipeAPIDTO;
-import com.example.foodbook.models.Ingredient;
+import com.example.foodbook.dto.NutrientDTO;
+import com.example.foodbook.mapper.LocalMapper;
+import com.example.foodbook.models.Nutrient;
 import com.example.foodbook.models.Recipe;
+import com.example.foodbook.models.RecipeNutrient;
 import com.example.foodbook.repositories.EquipmentRepository;
+import com.example.foodbook.repositories.RecipeNutrientRepository;
 import com.example.foodbook.repositories.RecipeRepository;
 import com.example.foodbook.requests.FindRecipeRequest;
 import com.example.foodbook.response.FindRecipeResponce;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.util.stream.Collectors;
 @Service
 @Data
@@ -25,10 +30,12 @@ public class RecipeService {
     private final String API_KEY="88287130027b4c26bd5273c03ad85b36";
     /*private final String API_KEY="3345d443c0e4442c8060dee679aa8c53";*/
     private final String REQUEST="/recipes/complexSearch";
-    private  final ModelMapper modelMapper;
+    private final LocalMapper localMapper;
     private final RecipeRepository recipeRepository;
     private final EquipmentRepository equipmentRepository;
     private final IngredientService ingredientService;
+    private  final NutrientService nutrientService;
+    private  final RecipeNutrientRepository recipeNutrientRepository;
     public Recipe f(Long id){
         return recipeRepository.findById(id).get();
     }
@@ -57,35 +64,84 @@ public class RecipeService {
                 .doOnError(error -> System.out.println("error: " + error.getMessage()))
                 .block();
     }
-    public FullRecipeAPIDTO getRecipeById(Long id){
-        return webClient.get()
+    public FullRecipeAPIDTO getFullRicipeById(Long id){
+         return recipeRepository.findById(id).isPresent()?
+                 localMapper.convertRecipeToDTO(recipeRepository.findById(id).get()) :
+                 getRecipeFromApiById(id);
+    }
+    public FullRecipeAPIDTO getRecipeFromApiById(Long id){
+        Map<String, String> params = new HashMap<>();
+        params.put("apiKey",API_KEY);
+        params.put("includeNutrition","true");
+        MultiValueMap<String, String> p = new LinkedMultiValueMap<>();
+        p.setAll(params);
+        return  webClient.get()
                 .uri(uriBuilder ->uriBuilder
                         .path("recipes/"+id+"/information")
-                        .queryParam("apiKey",API_KEY)
+                        .queryParams(p)
                         .build())
                 .retrieve()
                 .bodyToMono(FullRecipeAPIDTO.class)
                 .doOnError(error-> System.out.println("error: " +error.getMessage()))
                 .block();
     }
-    public Recipe createRecipe(Long id){
-        FullRecipeAPIDTO fullRecipeAPIDTO = getRecipeById(id);
+    public Recipe getRecipeById(Long id){
+        return recipeRepository.findById(id).get();
+    }
+    public Recipe saveRecipe(Long id){
+        FullRecipeAPIDTO fullRecipeAPIDTO = getRecipeFromApiById(id);
         Recipe recipe = convertDTOToRecipe(fullRecipeAPIDTO);
         //todo Проверка на то или есть такой ингридиент в бд, чтобы не перезаписывало
-        recipe.getIngredients().forEach(ingredientService::saveIngredient);
+        /*recipe.getIngredients().forEach(ingr->{
+            if (!ingredientService.isIngredientPresent(ingr.getId())){
+                ingredientService.saveIngredient(ingr);
+            }
+
+        });
+        recipe.getRecipeNutrients().forEach(recipeNutrient ->
+        {
+            if (!nutrientService.isNutrientPresent(recipeNutrient.getNutrient().getId())){
+                nutrientService.saveNutrient(recipeNutrient.getNutrient());
+            }
+        });*/
+
         recipeRepository.save(recipe);
         return recipe;
     }
+    private final ModelMapper modelMapper;
     public Recipe convertDTOToRecipe(FullRecipeAPIDTO fullRecipeAPIDTO){
         Recipe recipe = new Recipe();
         modelMapper.map(fullRecipeAPIDTO,recipe);
         recipe.setIngredients(fullRecipeAPIDTO.getExtendedIngredients());
+        recipe.getIngredients().forEach(ingr->{
+            if (!ingredientService.isIngredientPresent(ingr.getId())){
+                ingredientService.saveIngredient(ingr);
+            }
+
+        });
+        List<RecipeNutrient> recipeNutrients = new ArrayList<>();
+        recipeRepository.save(recipe);
+        for (NutrientDTO nutrientDTO :
+                fullRecipeAPIDTO.getNutrition().getNutrients() ) {
+            //
+            Nutrient nutrient = new Nutrient();
+            modelMapper.map(nutrientDTO,nutrient);
+            nutrientService.saveNutrient(nutrient);
+            //
+            RecipeNutrient recipeNutrient = new RecipeNutrient();
+            recipeNutrient.setNutrient(nutrient);
+            recipeNutrient.setAmount(nutrientDTO.getAmount());
+            recipeNutrient.setRecipe(recipe);
+            recipeNutrientRepository.save(recipeNutrient);
+            recipeNutrients.add(recipeNutrient);
+
+        }
+
+        recipe.setRecipeNutrients(recipeNutrients);
+
         return recipe;
     }
-    public FullRecipeAPIDTO convertRecipeToDTO(Recipe recipe){
-        FullRecipeAPIDTO fullRecipeAPIDTO = new FullRecipeAPIDTO();
-        modelMapper.map(recipe,fullRecipeAPIDTO);
-        fullRecipeAPIDTO.setExtendedIngredients(recipe.getIngredients());
-        return fullRecipeAPIDTO;
+    public boolean isRecipePresent(Long recipeId){
+        return recipeRepository.findById(recipeId).isPresent();
     }
 }
