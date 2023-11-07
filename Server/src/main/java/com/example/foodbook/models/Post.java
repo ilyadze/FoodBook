@@ -1,11 +1,14 @@
 package com.example.foodbook.models;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.util.ArrayList;
 import java.util.List;
 @Entity
 @Table
 @Data
+@EqualsAndHashCode
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
