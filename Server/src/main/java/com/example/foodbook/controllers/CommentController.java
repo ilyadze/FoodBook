@@ -15,12 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/comment")
 public class CommentController {
-
     private final CommentService commentService;
-
     @PostMapping("/create")
     public ResponseEntity<HttpStatus> createComment(@RequestBody @Valid CommentDTO commentDTO, BindingResult bindingResult) {
-
         if (bindingResult.hasErrors()) {
             var message = String.join(", ", ErrorMessages.getErrorMessages(bindingResult));
             throw new CommentException(HttpStatus.BAD_REQUEST, message);
@@ -28,7 +25,6 @@ public class CommentController {
         commentService.save(commentDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
     @GetMapping("/show/{post_id}")
     public ResponseEntity<?> getComments(@PathVariable Long post_id) {
         return new ResponseEntity<>(commentService.getCommentsById(post_id), HttpStatus.OK);

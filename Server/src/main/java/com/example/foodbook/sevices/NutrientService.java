@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 @AllArgsConstructor
@@ -16,7 +18,10 @@ public class NutrientService {
     public void saveNutrient(Nutrient nutrient){
         nutrientRepository.save(nutrient);
     }
-    public boolean isNutrientPresent(Long id){
-        return nutrientRepository.findById(id).isPresent();
+    public boolean isNutrientPresent(String name){
+        return nutrientRepository.findByName(name).isPresent();
+    }
+    public Optional<Nutrient> findByName(String name){
+        return nutrientRepository.findByName(name);
     }
 }

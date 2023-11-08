@@ -1,57 +1,96 @@
 package com.example.foodbook.controllers;
 
+import com.example.foodbook.dto.person.PersonUpdateDTO;
 import com.example.foodbook.exceptions.CommentException;
 import com.example.foodbook.models.Person;
 import com.example.foodbook.sevices.PersonService;
 import com.example.foodbook.sevices.RelationshipService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/person")
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class PersonController {
 
-    private final PersonService personService;
+    PersonService personService;
 
-    private final RelationshipService relationshipService;
+    RelationshipService relationshipService;
 
-//    @GetMapping("/followings")
-//    public ResponseEntity<?> getFollowings(Authentication authentication) {
-//        String username = authentication.getName();
-//        Person person = personService.findByUsername(username).get();
-//
-//        return ResponseEntity.ok(relationshipService.findByFollower(person));
-//    }
+    PasswordEncoder passwordEncoder;
 
+    ModelMapper modelMapper;
+
+    @Operation(
+            summary = "Get person",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Info",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            array = @ArraySchema(schema = @Schema(implementation = Person.class)))
+                            })
+            }
+    )
     @GetMapping()
     public ResponseEntity<?> getPerson(Authentication authentication) {
         return ResponseEntity.ok(personService.findByUsername(authentication.getName()));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getPerson( @PathVariable("id") Long id, Authentication authentication) {
-        Person findingPerson = personService.findById(id);
+    @Operation(
+            summary = "Get person",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Info",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            array = @ArraySchema(schema = @Schema(implementation = Person.class)))
+                            })
+            }
+    )
+    @GetMapping("/{username}")
+    public ResponseEntity<?> getPerson( @PathVariable("username") String username, Authentication authentication) {
+        Person findingPerson = personService.findByUsername(username);
         Person person = personService.findByUsername(authentication.getName());
-        if(!person.getIsPrivate() && findingPerson.getBlockedPersons().contains(person)) {
-            return ResponseEntity.ok(personService.findByUsername(authentication.getName()));
+        if(!findingPerson.getIsPrivate() && !findingPerson.getBlockedPersons().contains(person)) {
+            return ResponseEntity.ok(findingPerson);
         } else {
             throw new CommentException(HttpStatus.BAD_REQUEST, "Аккаунт приватный");
         }
     }
 
-    @GetMapping("/followers")
-    public ResponseEntity<?> getFollowers(Authentication authentication) {
-        String username = authentication.getName();
+    @GetMapping("/{username}/followers")
+    public ResponseEntity<?> getFollowers(@PathVariable("username") String username) {
         Person person = personService.findByUsername(username);
-//        return ResponseEntity.ok(person.getFollowers());
-//        return ResponseEntity.ok(personService.getFollowers(person));
-        return ResponseEntity.ok(relationshipService.getFollowersByUserId(person.getId()));
+        return ResponseEntity.ok(person.getFollowers());
     }
+
+    @GetMapping("/{username}/followings")
+    public ResponseEntity<?> getFollowings(@PathVariable("username") String username) {
+        Person person = personService.findByUsername(username);
+
+        return ResponseEntity.ok(person.getFollowings());
+    }
+
 
 
     @PostMapping("/follow")
@@ -87,12 +126,29 @@ public class PersonController {
         }
     }
 
-    @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<String> handleIllegalStateException(IllegalStateException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Пользователь не аутентифицирован");
+    @Operation(
+            summary = "Update person",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Update",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            array = @ArraySchema(schema = @Schema(implementation = PersonUpdateDTO.class)))
+                            })
+            }
+    )
+    @PatchMapping("/update")
+    public ResponseEntity<?> updatePerson(Authentication authentication,
+                                          @RequestBody PersonUpdateDTO updatePerson) {
+        Person person = personService.findByUsername(authentication.getName());
+        person.setUsername(updatePerson.getUsername());
+        person.setPassword(passwordEncoder.encode(updatePerson.getPassword()));
+        person.setDescription(updatePerson.getDescription());
+        person.setIsPrivate(updatePerson.getIsPrivate());
+        personService.savePerson(person);
+        return ResponseEntity.ok(person);
     }
-    @ExceptionHandler(NullPointerException.class)
-    public ResponseEntity<String> handleNullPointerException(NullPointerException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Пользователь не аутентифицирован");
-    }
+
 }

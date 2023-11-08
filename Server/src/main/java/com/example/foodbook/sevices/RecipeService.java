@@ -3,6 +3,7 @@ import com.example.foodbook.configurations.MapperConfiguration;
 import com.example.foodbook.dto.FullRecipeAPIDTO;
 import com.example.foodbook.dto.NutrientDTO;
 import com.example.foodbook.mapper.LocalMapper;
+import com.example.foodbook.models.Ingredient;
 import com.example.foodbook.models.Nutrient;
 import com.example.foodbook.models.Recipe;
 import com.example.foodbook.models.RecipeNutrient;
@@ -90,7 +91,7 @@ public class RecipeService {
     }
     public Recipe saveRecipe(Long id){
         FullRecipeAPIDTO fullRecipeAPIDTO = getRecipeFromApiById(id);
-        Recipe recipe = convertDTOToRecipe(fullRecipeAPIDTO);
+        Recipe recipe = convertDTOToRecipe2(fullRecipeAPIDTO);
         //todo Проверка на то или есть такой ингридиент в бд, чтобы не перезаписывало
         /*recipe.getIngredients().forEach(ingr->{
             if (!ingredientService.isIngredientPresent(ingr.getId())){
@@ -110,23 +111,23 @@ public class RecipeService {
     }
     private final ModelMapper modelMapper;
     public Recipe convertDTOToRecipe(FullRecipeAPIDTO fullRecipeAPIDTO){
-        Recipe recipe = new Recipe();
-        modelMapper.map(fullRecipeAPIDTO,recipe);
+        Recipe recipe = modelMapper.map(fullRecipeAPIDTO,Recipe.class);
         recipe.setIngredients(fullRecipeAPIDTO.getExtendedIngredients());
-        recipe.getIngredients().forEach(ingr->{
-            if (!ingredientService.isIngredientPresent(ingr.getId())){
-                ingredientService.saveIngredient(ingr);
-            }
 
-        });
+        List<Ingredient> ingredientsToSave = new ArrayList<>();
         List<RecipeNutrient> recipeNutrients = new ArrayList<>();
-        recipeRepository.save(recipe);
+
+
+
         for (NutrientDTO nutrientDTO :
                 fullRecipeAPIDTO.getNutrition().getNutrients() ) {
             //
-            Nutrient nutrient = new Nutrient();
-            modelMapper.map(nutrientDTO,nutrient);
-            nutrientService.saveNutrient(nutrient);
+            Nutrient nutrient =   nutrient=nutrientService.findByName(nutrientDTO.getName()).get();
+            if(nutrient==null){
+                modelMapper.map(nutrientDTO,nutrient);
+                nutrientService.saveNutrient(nutrient);
+            }
+
             //
             RecipeNutrient recipeNutrient = new RecipeNutrient();
             recipeNutrient.setNutrient(nutrient);
@@ -136,11 +137,60 @@ public class RecipeService {
             recipeNutrients.add(recipeNutrient);
 
         }
+        recipe.getIngredients().forEach(ingr -> {
+            if (!ingredientService.isIngredientPresent(ingr.getId())) {
+                ingredientsToSave.add(ingr);
+            }
+        });
+
+        ingredientService.saveIngredients(ingredientsToSave);
+        recipeRepository.save(recipe);
+
 
         recipe.setRecipeNutrients(recipeNutrients);
 
         return recipe;
     }
+    public Recipe convertDTOToRecipe2(FullRecipeAPIDTO fullRecipeAPIDTO) {
+        Recipe recipe = modelMapper.map(fullRecipeAPIDTO, Recipe.class);
+        recipe.setIngredients(fullRecipeAPIDTO.getExtendedIngredients());
+
+        List<Ingredient> ingredientsToSave = new ArrayList<>();
+        List<RecipeNutrient> recipeNutrients = new ArrayList<>();
+
+        for (NutrientDTO nutrientDTO : fullRecipeAPIDTO.getNutrition().getNutrients()) {
+            Nutrient nutrient;
+            if(nutrientService.isNutrientPresent(nutrientDTO.getName())){
+                nutrient=nutrientService.findByName(nutrientDTO.getName()).get();
+            }
+            else {
+                nutrient = modelMapper.map(nutrientDTO, Nutrient.class);
+                nutrientService.saveNutrient(nutrient);
+            }
+
+            RecipeNutrient recipeNutrient = new RecipeNutrient();
+            recipeNutrient.setNutrient(nutrient);
+            recipeNutrient.setAmount(nutrientDTO.getAmount());
+            recipeNutrient.setRecipe(recipe);
+            recipeNutrients.add(recipeNutrient);
+        }
+        /*List<Ingredient> existingIngredients = ingredientService.findExistingIngredients(recipe.getIngredients());
+        recipe.getIngredients().removeAll(existingIngredients);*/
+        /*ingredientsToSave.addAll(recipe.getIngredients());*/
+        recipe.getIngredients().forEach(ingr -> {
+            if (!ingredientService.isIngredientPresent(ingr.getId())) {
+                ingredientsToSave.add(ingr);
+            }
+        });
+        ingredientService.saveIngredients(ingredientsToSave);
+        recipeRepository.save(recipe);
+        recipeNutrientRepository.saveAll(recipeNutrients);
+
+        recipe.setRecipeNutrients(recipeNutrients);
+
+        return recipe;
+    }
+
     public boolean isRecipePresent(Long recipeId){
         return recipeRepository.findById(recipeId).isPresent();
     }

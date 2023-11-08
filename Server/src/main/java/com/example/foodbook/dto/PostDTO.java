@@ -1,4 +1,5 @@
 package com.example.foodbook.dto;
+import com.example.foodbook.dto.person.PersonDTO;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
