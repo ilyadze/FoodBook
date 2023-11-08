@@ -22,7 +22,7 @@ public class CommentDTO {
     String comment;
 
     Long postId;
-    Long personId;
+    String username;
 
     String image;
 }

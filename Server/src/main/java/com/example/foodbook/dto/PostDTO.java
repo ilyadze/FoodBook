@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,6 +19,6 @@ public class PostDTO {
     FullRecipeAPIDTO recipe;
     PersonDTO person;
     //TODO
-    /*List<CommentDTO> commenList;
-    List<PostLike> postLikes;*/
+    List<CommentDTO> commentList;
+    Integer postLikes;
 }
