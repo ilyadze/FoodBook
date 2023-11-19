@@ -63,13 +63,13 @@ public class PersonService implements UserDetailsService {
     public Person createPerson( RegistrationUserDTO registrationUserDTO){
         //TODO
         //Проверку сделать
-        System.out.println(1);
         Person person = new Person();
         person.setDescription(registrationUserDTO.getDescription());
         person.setPassword(passwordEncoder.encode(registrationUserDTO.getPassword()));
         person.setUsername(registrationUserDTO.getUsername());
         person.setEmail(registrationUserDTO.getEmail());
         person.setRoles(List.of(roleService.getUserRole()));
+
         System.out.println(2);
         try {
             return personRepository.save(person);
@@ -77,6 +77,7 @@ public class PersonService implements UserDetailsService {
         catch (DataIntegrityViolationException e){
             throw new LocalException(HttpStatus.CONFLICT,"Такой email уже зарегистрирован");
         }
+
     }
 
     public boolean addBlockedPerson(Person person, String blockedPersonUsername) {

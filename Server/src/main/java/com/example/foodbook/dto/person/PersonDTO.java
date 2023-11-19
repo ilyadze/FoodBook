@@ -1,4 +1,4 @@
-package com.example.foodbook.dto;
+package com.example.foodbook.dto.person;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

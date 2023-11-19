@@ -26,4 +26,9 @@ public class LikeController {
         return new ResponseEntity<>(postLikeService.countAllByPostId(post_id), HttpStatus.OK);
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<?> showUserLikes(Principal principal){
+        return new ResponseEntity<>(postLikeService.getUserLikes(principal.getName()),HttpStatus.OK);
+    }
+
 }

@@ -1,11 +1,10 @@
 package com.example.foodbook.sevices;
 
-import com.example.foodbook.dto.PersonDTO;
+import com.example.foodbook.dto.person.PersonDTO;
 import com.example.foodbook.dto.RegistrationUserDTO;
 import com.example.foodbook.exceptions.AppError;
 import com.example.foodbook.exceptions.LocalException;
 import com.example.foodbook.models.Person;
-import com.example.foodbook.requests.FindRecipeRequest;
 import com.example.foodbook.requests.JwtRequest;
 import com.example.foodbook.response.JwtResponse;
 import com.example.foodbook.utils.JWTUtil;
@@ -34,23 +33,20 @@ public class AuthService {
     private final Map<String, String> refreshStorage = new HashMap<>();
 
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest){
-        System.out.println("Какого хера");
+
         try {
+
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(),
                     authRequest.getPassword()));
         } catch(BadCredentialsException e){
             return new ResponseEntity<>(new AppError(HttpStatus.UNAUTHORIZED.value(),"Неправильный логин или пароль"),HttpStatus.UNAUTHORIZED);
         }
 
-        System.out.println("Есть пробитие");
         UserDetails userDetails = personService.loadUserByUsername(authRequest.getUsername());
-        System.out.println(userDetails);
 
         String token = jwtUtil.generateToken(userDetails);
         String refreshToken= jwtUtil.generateRefreshToken(userDetails);
         refreshStorage.put(userDetails.getUsername(), refreshToken);
-        System.out.println("token:" + token);
-        System.out.println("refresh:" + token);
         return ResponseEntity.ok(new JwtResponse(token,refreshToken));
     }
 

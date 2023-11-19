@@ -1,4 +1,5 @@
 package com.example.foodbook.models;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,7 +10,7 @@ import java.util.*;
 @Entity
 @Data
 @Table(name = "person")
-@EqualsAndHashCode
+@JsonIgnoreProperties({"followers", "followings", "postLikeList", "commentList", "postList", "blockedPersons"})
 public class Person /*implements UserDetails*/ {
 
     @Id
