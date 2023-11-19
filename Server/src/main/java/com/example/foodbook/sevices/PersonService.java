@@ -1,11 +1,14 @@
 package com.example.foodbook.sevices;
 import com.example.foodbook.dto.RegistrationUserDTO;
+import com.example.foodbook.exceptions.LocalException;
 import com.example.foodbook.models.Person;
 import com.example.foodbook.models.Relationship;
 import com.example.foodbook.repositories.PersonRepository;
 import com.example.foodbook.repositories.RelationshipRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,6 +41,9 @@ public class PersonService implements UserDetailsService {
     public Person findByUsername(String username) {
         return personRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException(("User with this id not found")));
     }
+    public boolean isPersonAlive(String username){
+        return  personRepository.findByUsername(username).isPresent();
+    }
 
 
     public  Optional<List<Person>> findFollowersById(Long id) {
@@ -55,6 +61,7 @@ public class PersonService implements UserDetailsService {
     }
 
     public Person createPerson( RegistrationUserDTO registrationUserDTO){
+        //TODO
         //Проверку сделать
         System.out.println(1);
         Person person = new Person();
@@ -64,7 +71,12 @@ public class PersonService implements UserDetailsService {
         person.setEmail(registrationUserDTO.getEmail());
         person.setRoles(List.of(roleService.getUserRole()));
         System.out.println(2);
-        return personRepository.save(person);
+        try {
+            return personRepository.save(person);
+        }
+        catch (DataIntegrityViolationException e){
+            throw new LocalException(HttpStatus.CONFLICT,"Такой email уже зарегистрирован");
+        }
     }
 
     public boolean addBlockedPerson(Person person, String blockedPersonUsername) {

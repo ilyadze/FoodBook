@@ -23,24 +23,4 @@ private final String API_KEY="3345d443c0e4442c8060dee679aa8c53";
                 .doOnError(error-> System.out.println("error: " +error.getMessage()))
                 .block();
     }
-/////////////////////////////////////////////////////////////////////////////
-    public Mono<Person> getUserByIdAsync(final String id) {
-        return webClient
-                .get()
-                .uri(String.join("", "/users/", id))
-                .retrieve()
-                .bodyToMono(Person.class)
-                .doOnError(error-> System.out.println("error: "+error.getMessage()))
-                .onErrorResume(error -> Mono.just(new Person()));
-    }
-    public Person getUserByIdSync(final String id) {
-        return webClient
-                .get()
-                .uri(String.join("", "/users/", id))
-                .retrieve()
-                .bodyToMono(Person.class)
-                .doOnError(error-> System.out.println("error: "+error.getMessage()))
-                .onErrorResume(error -> Mono.just(new Person()))
-                .block();
-    }
 }

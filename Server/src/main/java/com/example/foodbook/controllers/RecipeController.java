@@ -15,14 +15,9 @@ public class RecipeController {
     public ResponseEntity<?> findRecipe(@RequestBody FindRecipeRequest findRecipeRequest){
         return ResponseEntity.ok(recipeService.findRecipe(findRecipeRequest));
     }
-
     //TODO
     @GetMapping("/recipe/{id}")
     public ResponseEntity<?> findRecipeApiById(@PathVariable(name = "id")Long id){
-        /*Recipe recipe = recipeService.f(id);
-        System.out.println(recipe);*/
-        /*return ResponseEntity.ok(recipeService.f(id));*/
-       /* return ResponseEntity.badRequest().body(recipe);*/
         return ResponseEntity.ok(recipeService.getFullRicipeById(id));
     }
 
