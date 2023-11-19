@@ -3,9 +3,12 @@ package com.example.foodbook.controllers.person;
 import com.example.foodbook.dto.person.PersonUpdateDTO;
 import com.example.foodbook.exceptions.CommentException;
 import com.example.foodbook.models.person.Person;
+import com.example.foodbook.models.person.Relationship;
 import com.example.foodbook.sevices.person.PersonService;
 import com.example.foodbook.sevices.person.RelationshipService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,28 +36,33 @@ public class PersonController {
 
     PasswordEncoder passwordEncoder;
 
-    ModelMapper modelMapper;
 
     @Operation(
-            summary = "Get person",
+            summary = "Gets person",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Info",
+                            description = "Found the roles",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
                                             array = @ArraySchema(schema = @Schema(implementation = Person.class)))
                             })
             }
-    )
+            , parameters = {
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-Auth-Token",
+                    required = true,
+                    description = "JWT Token, can be generated in auth controller /auth")
+    })
     @GetMapping()
     public ResponseEntity<?> getPerson(Authentication authentication) {
         return ResponseEntity.ok(personService.findByUsername(authentication.getName()));
     }
 
     @Operation(
-            summary = "Get person",
+            summary = "Get person by username",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -65,6 +73,13 @@ public class PersonController {
                                             array = @ArraySchema(schema = @Schema(implementation = Person.class)))
                             })
             }
+            , parameters = {
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-Auth-Token",
+                    required = true,
+                    description = "JWT Token, can be generated in auth controller /auth")
+        }
     )
     @GetMapping("/{username}")
     public ResponseEntity<?> getPerson( @PathVariable("username") String username, Authentication authentication) {
@@ -77,12 +92,50 @@ public class PersonController {
         }
     }
 
+    @Operation(
+            summary = "Gets followers by username",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found the roles",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            array = @ArraySchema(schema = @Schema(implementation = Relationship.class)))
+                            })
+            }
+            , parameters = {
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-Auth-Token",
+                    required = true,
+                    description = "JWT Token, can be generated in auth controller /auth")
+    })
     @GetMapping("/{username}/followers")
     public ResponseEntity<?> getFollowers(@PathVariable("username") String username) {
         Person person = personService.findByUsername(username);
         return ResponseEntity.ok(person.getFollowers());
     }
 
+    @Operation(
+            summary = "Get all followings by username",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found the roles",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            array = @ArraySchema(schema = @Schema(implementation = Relationship.class)))
+                            })
+            }
+            , parameters = {
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-Auth-Token",
+                    required = true,
+                    description = "JWT Token, can be generated in auth controller /auth")
+    })
     @GetMapping("/{username}/followings")
     public ResponseEntity<?> getFollowings(@PathVariable("username") String username) {
         Person person = personService.findByUsername(username);
@@ -92,6 +145,25 @@ public class PersonController {
 
 
 
+    @Operation(
+            summary = "Post follow for user with username",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found the roles",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            array = @ArraySchema(schema = @Schema(implementation = String.class)))
+                            })
+            }
+            , parameters = {
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-Auth-Token",
+                    required = true,
+                    description = "JWT Token, can be generated in auth controller /auth")
+    })
     @PostMapping("/follow")
     public ResponseEntity<?> addFollower(Authentication authentication,
                                               @RequestParam("following") String followingUsername) {
@@ -106,6 +178,25 @@ public class PersonController {
         }
     }
 
+    @Operation(
+            summary = "Get blocked persons",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found the roles",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            array = @ArraySchema(schema = @Schema(implementation = Person.class)))
+                            })
+            }
+            , parameters = {
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-Auth-Token",
+                    required = true,
+                    description = "JWT Token, can be generated in auth controller /auth")
+    })
     @GetMapping("/blocked_list")
     public ResponseEntity<?> getBlockedList(Authentication authentication) {
         String username = authentication.getName();
@@ -113,6 +204,25 @@ public class PersonController {
         return ResponseEntity.ok(person.getBlockedPersons());
     }
 
+    @Operation(
+            summary = "Add person with username to bloked list",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found the roles",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            array = @ArraySchema(schema = @Schema(implementation = String.class)))
+                            })
+            }
+            , parameters = {
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-Auth-Token",
+                    required = true,
+                    description = "JWT Token, can be generated in auth controller /auth")
+    })
     @PostMapping("/blocked_list")
     public ResponseEntity<?> addToBlockedList(Authentication authentication,
                                               @RequestParam("username") String blockedUsername) {
@@ -137,6 +247,13 @@ public class PersonController {
                                             array = @ArraySchema(schema = @Schema(implementation = PersonUpdateDTO.class)))
                             })
             }
+            , parameters = {
+            @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-Auth-Token",
+                    required = true,
+                    description = "JWT Token, can be generated in auth controller /auth")
+    }
     )
     @PatchMapping("/update")
     public ResponseEntity<?> updatePerson(Authentication authentication,
