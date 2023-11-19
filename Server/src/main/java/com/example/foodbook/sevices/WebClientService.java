@@ -1,11 +1,10 @@
 package com.example.foodbook.sevices;
 
-import com.example.foodbook.dto.FullRecipeAPIDTO;
-import com.example.foodbook.models.Person;
+import com.example.foodbook.dto.post.recipe.FullRecipeAPIDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+
 @Service
 @AllArgsConstructor
 public class WebClientService {
