@@ -24,10 +24,6 @@ public class Post {
                 mappedBy = "post")
     private List<PostLike> postLikeList= new ArrayList<>();;
 
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,
-            mappedBy = "post")
-    private List<PostDislike> postDislikeList= new ArrayList<>();
-
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,
             mappedBy = "post")
     private List<Comment> commentList= new ArrayList<>();
