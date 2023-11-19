@@ -1,10 +1,11 @@
-package com.example.foodbook.sevices.post;
+package com.example.foodbook.sevices.post.info;
 
 import com.example.foodbook.dto.post.PostDTO;
 import com.example.foodbook.mapper.LocalMapper;
 import com.example.foodbook.models.post.info.PostLike;
 import com.example.foodbook.repositories.post.info.PostLikeRepository;
 import com.example.foodbook.sevices.person.PersonService;
+import com.example.foodbook.sevices.post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

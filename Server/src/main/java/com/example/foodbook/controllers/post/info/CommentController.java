@@ -2,7 +2,7 @@ package com.example.foodbook.controllers.post.info;
 
 import com.example.foodbook.dto.post.info.CommentDTO;
 import com.example.foodbook.exceptions.CommentException;
-import com.example.foodbook.sevices.post.CommentService;
+import com.example.foodbook.sevices.post.info.CommentService;
 import com.example.foodbook.utils.ErrorMessages;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.example.foodbook.controllers.post.info;
 
-import com.example.foodbook.sevices.post.PostLikeService;
+import com.example.foodbook.sevices.post.info.PostLikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
