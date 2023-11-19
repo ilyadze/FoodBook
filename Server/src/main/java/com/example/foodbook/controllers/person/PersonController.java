@@ -42,7 +42,7 @@ public class PersonController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Found the roles",
+                            description = "Found person",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
@@ -52,9 +52,9 @@ public class PersonController {
             , parameters = {
             @Parameter(
                     in = ParameterIn.HEADER,
-                    name = "X-Auth-Token",
+                    name = "Authorization",
                     required = true,
-                    description = "JWT Token, can be generated in auth controller /auth")
+                    description = "JWT Token, can be generated in auth controller /auth, starting with Bearer")
     })
     @GetMapping()
     public ResponseEntity<?> getPerson(Authentication authentication) {
@@ -66,7 +66,7 @@ public class PersonController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Info",
+                            description = "Found person",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
@@ -76,9 +76,9 @@ public class PersonController {
             , parameters = {
             @Parameter(
                     in = ParameterIn.HEADER,
-                    name = "X-Auth-Token",
+                    name = "Authorization",
                     required = true,
-                    description = "JWT Token, can be generated in auth controller /auth")
+                    description = "JWT Token, can be generated in auth controller /auth, starting with Bearer")
         }
     )
     @GetMapping("/{username}")
@@ -97,7 +97,7 @@ public class PersonController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Found the roles",
+                            description = "Found followers",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
@@ -107,9 +107,9 @@ public class PersonController {
             , parameters = {
             @Parameter(
                     in = ParameterIn.HEADER,
-                    name = "X-Auth-Token",
+                    name = "Authorization",
                     required = true,
-                    description = "JWT Token, can be generated in auth controller /auth")
+                    description = "JWT Token, can be generated in auth controller /auth, , starting with Bearer")
     })
     @GetMapping("/{username}/followers")
     public ResponseEntity<?> getFollowers(@PathVariable("username") String username) {
@@ -122,7 +122,7 @@ public class PersonController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Found the roles",
+                            description = "Found the followings",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
@@ -132,9 +132,9 @@ public class PersonController {
             , parameters = {
             @Parameter(
                     in = ParameterIn.HEADER,
-                    name = "X-Auth-Token",
+                    name = "Authorization",
                     required = true,
-                    description = "JWT Token, can be generated in auth controller /auth")
+                    description = "JWT Token, can be generated in auth controller /auth, starting with Bearer")
     })
     @GetMapping("/{username}/followings")
     public ResponseEntity<?> getFollowings(@PathVariable("username") String username) {
@@ -150,7 +150,7 @@ public class PersonController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Found the roles",
+                            description = "Follow to person",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
@@ -160,9 +160,9 @@ public class PersonController {
             , parameters = {
             @Parameter(
                     in = ParameterIn.HEADER,
-                    name = "X-Auth-Token",
+                    name = "Authorization",
                     required = true,
-                    description = "JWT Token, can be generated in auth controller /auth")
+                    description = "JWT Token, can be generated in auth controller /auth, starting with Bearer")
     })
     @PostMapping("/follow")
     public ResponseEntity<?> addFollower(Authentication authentication,
@@ -183,7 +183,7 @@ public class PersonController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Found the roles",
+                            description = "List with blocked persons",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
@@ -193,9 +193,9 @@ public class PersonController {
             , parameters = {
             @Parameter(
                     in = ParameterIn.HEADER,
-                    name = "X-Auth-Token",
+                    name = "Authorization",
                     required = true,
-                    description = "JWT Token, can be generated in auth controller /auth")
+                    description = "JWT Token, can be generated in auth controller /auth, starting with Bearer")
     })
     @GetMapping("/blocked_list")
     public ResponseEntity<?> getBlockedList(Authentication authentication) {
@@ -209,7 +209,7 @@ public class PersonController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Found the roles",
+                            description = "Add person to blocked list",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
@@ -219,9 +219,9 @@ public class PersonController {
             , parameters = {
             @Parameter(
                     in = ParameterIn.HEADER,
-                    name = "X-Auth-Token",
+                    name = "Authorization",
                     required = true,
-                    description = "JWT Token, can be generated in auth controller /auth")
+                    description = "JWT Token, can be generated in auth controller /auth, starting with Bearer")
     })
     @PostMapping("/blocked_list")
     public ResponseEntity<?> addToBlockedList(Authentication authentication,
@@ -250,9 +250,9 @@ public class PersonController {
             , parameters = {
             @Parameter(
                     in = ParameterIn.HEADER,
-                    name = "X-Auth-Token",
+                    name = "Authorization",
                     required = true,
-                    description = "JWT Token, can be generated in auth controller /auth")
+                    description = "JWT Token, can be generated in auth controller /auth, starting with Bearer")
     }
     )
     @PatchMapping("/update")
